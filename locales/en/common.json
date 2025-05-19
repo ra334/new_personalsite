@@ -1,5 +1,12 @@
 {
     "header": {
-        "name": "Mykhailo Savchuk"
+        "name": "Mykhailo Savchuk",
+        "nav": {
+            "blog": "Blog",
+            "projects": "Projects",
+            "about": "About",
+            "contacts": "Contact"
+        },
+        "tor": "Tor mirror"
     }
 }
