@@ -34,11 +34,6 @@ function Header() {
                                         {t("header.nav.about")}
                                     </Link>
                                 </li>
-                                <li>
-                                    <Link href="/contacts">
-                                        {t("header.nav.contacts")}
-                                    </Link>
-                                </li>
                             </ul>
                         </nav>
                         <div>
