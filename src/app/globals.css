@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+body, html {
+    @apply h-full;
+}
+
+body {
+    @apply flex flex-col;
+}
+
 .light {
     @apply bg-gray-200 text-black;
 }

@@ -8,5 +8,8 @@
             "contacts": "Contact"
         },
         "tor": "Tor mirror"
+    },
+    "footer": {
+        "copyright": "by Mukhailo Savchuk. All rights reserved."
     }
 }
