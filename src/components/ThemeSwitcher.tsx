@@ -1,8 +1,8 @@
 'use client'
 import { useState, useEffect } from "react"
 import Image from "next/image"
-import MoonIMG from '@/public/themeSwitcher/moon.svg'
-import SunIMG from '@/public/themeSwitcher/sun.svg'
+import MoonIcon from "./svg/header/MoonIcon"
+import SunIcon from "./svg/header/SunIcon"
 
 function ThemeSwitcher() {
     const [currentTheme, setCurrentTheme] = useState("light")
@@ -41,14 +41,14 @@ function ThemeSwitcher() {
                     className="w-[20px] cursor-pointer"
                     onClick={() => handleThemeChange("dark")}
                 >
-                    <Image src={MoonIMG} alt="Moon" />
+                    <MoonIcon />
                 </button>
             ) : (
                 <button
                     className="w-[20px] cursor-pointer"
                     onClick={() => handleThemeChange("light")}
                 >
-                    <Image src={SunIMG} alt="Sun" />
+                    <SunIcon />
                 </button>
             )}
         </div>
