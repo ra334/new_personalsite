@@ -48,7 +48,7 @@ function Home() {
             <Header />
             <main className="">
                 <div className="container flex justify-center">
-                    <div className="max-w-[700px] mt-10">
+                    <div className="max-w-[700px]">
                         <section id="hero" className="text-center mt-15">
                             <h1 className="h1_title">
                                 {t("section_hero.title")}
