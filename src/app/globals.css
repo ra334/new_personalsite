@@ -9,13 +9,41 @@ body {
 }
 
 .light {
-    @apply bg-gray-200 text-black;
+    @apply bg-gray-200 text-black border-black;
 }
 
 .dark {
-    @apply bg-gray-900 text-white;
+    @apply bg-gray-900 text-white border-white;
 }
 
 .container {
     @apply max-w-[1200px] mx-auto px-2;
+}
+
+.h1_title {
+    @apply font-bold text-4xl leading-30;
+}
+
+.h2_title {
+    @apply font-bold text-3xl leading-30;
+}
+
+.h3_title {
+    @apply font-bold text-xl leading-20;
+}
+
+.text {
+    @apply font-medium text-[1.25rem];
+}
+
+.link {
+    @apply border p-2 block text-center;
+}
+
+.link:hover {
+    @apply underline text-neutral-400 transition-colors duration-200;
+}
+
+.button {
+    
 }

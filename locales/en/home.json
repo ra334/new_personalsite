@@ -1,3 +1,85 @@
 {
-    "name": "Mykhailo Savchuk"
+    "section_hero": {
+        "title": "Hello! I'm Mykhailo Savchuk",
+        "text": "A web developer who combines functionality with simplicity. I create modern web platforms, automate processes, write technical blogs, and experiment with new technologies."
+    },
+
+    "section_whatido": {
+        "title": "What I do?",
+        "text": "I create web applications with a focus on speed, security, and user experience. I have experience with TypeScript, Vue, Next.js, Nest, Docker, and other modern tools.",
+        "items_develop_title": "I develop",
+        "items_develop_list": [
+            "Interactive interfaces",
+            "Backend APIs",
+            "Automation tools",
+            "Full-fledged SaaS solutions"
+        ],
+        "items_cybersec_title": "Security and reliability",
+        "items_cybersec_list": [
+            "I implement protection against the most common vulnerabilities (OWASP Top 10)",
+            "I work with authorization, validation, access control",
+            "I analyze vulnerabilities and conduct basic security audits for applications"
+        ]
+    },
+
+    "section_projects": {
+        "title": "My projects",
+        "items": [
+            {
+                "title": "AnyToolLab",
+                "text": "A set of tools for daily tasks",
+                "technologies": ["Vue", "TypeScript", "Tensorflow"]
+            },
+            {
+                "title": "ListifyBoard",
+                "text": "Listings for real estate and vacancies",
+                "technologies": ["Next", "TypeScript", "Tailwind"]
+            },
+            {
+                "title": "Blog",
+                "text": "Thoughts on development, ideas, practical advice",
+                "technologies": ["Next", "TypeScript", "Tailwind", "Vitest"]
+            }
+        ],
+        "link": "View all projects"
+    },
+
+    "section_whyme": {
+        "title": "Why me?",
+        "text": "Collaboration with me means:",
+        "items": [
+            {
+                "title": "Direct contact without intermediaries",
+                "text": "You communicate directly with the developer who creates your product."
+            },
+            {
+                "title": "Individual approach",
+                "text": "Every project is unique. I delve deeply into tasks to create a solution that truly works."
+            },
+            {
+                "title": "Quality and reliability",
+                "text": "Clean, maintainable code and well-thought-out architecture are not just words, but a standard of work."
+            },
+            {
+                "title": "Post-launch support",
+                "text": "I don't disappear after release. Consultations, updates, and technical support – I'm always in touch if needed."
+            },
+            {
+                "title": "Adherence to deadlines and a transparent process",
+                "text": "Clear planning, regular project status updates, and timely results – without unexpected delays or surprises."
+            }
+        ]
+    },
+
+    "section_contact": {
+        "title": "Contact me",
+        "text": "Have an idea you want to implement? Need a technical perspective or turnkey development? Write to me – I'll respond as quickly as possible.",
+        "sub_text": "I usually reply within a day. If the matter is urgent – write to me on Telegram.",
+        "link": "Contact me"
+    },
+
+    "section_lastposts": {
+        "title": "Latest blog posts",
+        "empty": "No publications yet. But soon!"
+    }
 }
