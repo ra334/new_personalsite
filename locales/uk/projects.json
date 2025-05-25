@@ -1,0 +1,11 @@
+{
+    "title": "Мої Проєкти",
+    "description": "Ось деякі з проєктів, над якими я працював.",
+    "items": [
+        {
+            "title": "AnyToolLab",
+            "text": "Набір інструментів для щоденних завдань",
+            "technologies": ["Vue", "TypeScript", "Tensorflow"]
+        }
+    ]
+}
