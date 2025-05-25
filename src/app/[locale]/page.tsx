@@ -11,6 +11,17 @@ import {
     CalendarCheck,
 } from "lucide-react"
 
+interface Project {
+    title: string
+    text: string
+    technologies: string[]
+}
+
+interface WhyMeItem {
+    title: string
+    text: string
+}
+
 function Home() {
     const t = useTranslations("home")
     const posts = []
@@ -53,7 +64,7 @@ function Home() {
                                 {t("section_whatido.items_develop_title")}
                             </h3>
                             <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-xl mx-auto">
-                                {developItems.map((item, index) => (
+                                {developItems.map((item: string, index: number) => (
                                     <li
                                         key={index}
                                         className="border min-h-[60px] p-2 text-center flex items-center justify-center"
@@ -66,7 +77,7 @@ function Home() {
                                 {t("section_whatido.items_cybersec_title")}
                             </h3>
                             <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-xl mx-auto">
-                                {cybersecItems.map((item, index) => (
+                                {cybersecItems.map((item: string, index: number) => (
                                     <li
                                         key={index}
                                         className={`border min-h-[60px] p-2 text-center flex items-center justify-center
@@ -86,7 +97,7 @@ function Home() {
                                 {t("section_projects.title")}
                             </h2>
                             <ul className="flex flex-col gap-3">
-                                {projectItems.map((project, index) => (
+                                {projectItems.map((project: Project, index: number) => (
                                     <li key={index} className="border-1 flex">
                                         <div className="flex items-center justify-center w-[220px]">
                                             <h3 className="h3_title">
@@ -141,7 +152,7 @@ function Home() {
                             </h2>
                             <p className="text">{t("section_whyme.text")}</p>
                             <ul className="flex flex-col gap-4 border-l border-neutral-300 dark:border-neutral-700 pl-6 mt-6">
-                                {whymyItems.map((item, index) => {
+                                {whymyItems.map((item: WhyMeItem, index: number) => {
                                     const Icon = whymeIcons[index]
                                     return (
                                         <li key={index} className="ml-4">
