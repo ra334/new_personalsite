@@ -30,11 +30,11 @@ function Header() {
                                         {t("header.nav.projects")}
                                     </Link>
                                 </li> */}
-                                <li>
+                                {/* <li>
                                     <Link href="/about">
                                         {t("header.nav.about")}
                                     </Link>
-                                </li>
+                                </li> */}
                             </ul>
                         </nav>
                         <div>
