@@ -25,11 +25,11 @@ function Header() {
                                         {t("header.nav.blog")}
                                     </Link>
                                 </li>
-                                <li>
+                                {/* <li>
                                     <Link href="/projects">
                                         {t("header.nav.projects")}
                                     </Link>
-                                </li>
+                                </li> */}
                                 <li>
                                     <Link href="/about">
                                         {t("header.nav.about")}
