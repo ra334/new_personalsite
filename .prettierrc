@@ -1,0 +1,12 @@
+{
+    "singleQuote": true,
+    "semi": false,
+    "tabWidth": 4,
+    "printWidth": 80,
+    "plugins": [
+        "prettier-plugin-tailwindcss",
+        "prettier-plugin-organize-attributes",
+        "prettier-plugin-organize-imports",
+        "@trivago/prettier-plugin-sort-imports"
+    ]
+}
