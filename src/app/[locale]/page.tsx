@@ -199,7 +199,7 @@ function Home() {
                         </section>
                         <section
                             id="contact"
-                            className="border p-6 mt-15 text-center"
+                            className="border p-6 pb-[60px] mt-15 text-center"
                         >
                             <h2 className="h2_title text-center">
                                 {t('section_contact.title')}
@@ -210,12 +210,6 @@ function Home() {
                             <p className="text ">
                                 {t('section_contact.sub_text')}
                             </p>
-                            <Link
-                                href="/contact"
-                                className="link max-w-[200px] mt-5 m-auto"
-                            >
-                                {t('section_contact.link')}
-                            </Link>
                         </section>
                         <section id="lastposts" className="my-15">
                             {posts.length > 0 ? (
