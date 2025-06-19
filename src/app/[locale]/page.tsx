@@ -1,6 +1,7 @@
 import GithubIcon from '@src/components/svg/footer/GithubIcon'
 import Footer from '@src/layouts/Footer'
 import Header from '@src/layouts/Header'
+import createGenerateMetadata from '@src/utils/metadata'
 import {
     Handshake,
     Target,
@@ -21,6 +22,8 @@ interface WhyMeItem {
     title: string
     text: string
 }
+
+export const generateMetadata = createGenerateMetadata('home')
 
 function Home() {
     const t = useTranslations('home')

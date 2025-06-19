@@ -1,7 +1,13 @@
 {
+    "metadata": {
+        "title": "Mykhailo Savchuk - Full-stack Engineer",
+        "keywords": "Mykhailo Savchuk, web developer, portfolio, full-stack developer, TypeScript, React developer, Next.js developer, Express, NestJS, hire web developer, web development services, JavaScript expert",
+        "description": "Mykhailo Savchuk is a web developer who creates innovative and functional solutions. I specialize in front-end and back-end development using modern technologies. Personal website for portfolio, projects, and contacts."
+    },
+
     "section_hero": {
         "title": "Hello! I'm Mykhailo Savchuk",
-        "text": "A web developer who combines functionality with simplicity. I create modern web platforms, automate processes, write technical blogs, and experiment with new technologies."
+        "text": "A full-stack engineer who combines functionality with simplicity. I create modern web platforms, automate processes, write technical blogs, and experiment with new technologies."
     },
 
     "section_whatido": {
