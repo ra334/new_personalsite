@@ -10,10 +10,12 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@auth/drizzle-adapter": "^1.9.1",
     "dotenv": "^16.5.0",
     "drizzle-orm": "^0.43.1",
     "lucide-react": "^0.511.0",
     "next": "15.3.2",
+    "next-auth": "^5.0.0-beta.28",
     "next-intl": "^4.1.0",
     "pg": "^8.16.0",
     "react": "^19.0.0",
