@@ -37,7 +37,7 @@ function Sidebar() {
             <nav className="h-full">
                 <ul className="border flex flex-col gap-3 w-48 h-full py-4">
                     {sidebarList.map((item, index) => (
-                        <Link href={item.href}>
+                        <Link href={item.href} key={index}>
                             <li
                                 className={
                                     'hover:bg-gray-400 hover:text-black py-2 px-2 ' +
@@ -45,7 +45,6 @@ function Sidebar() {
                                         ? 'bg-gray-400 text-black'
                                         : '')
                                 }
-                                key={index}
                             >
                                 {item.name}
                             </li>
