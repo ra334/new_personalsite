@@ -1,0 +1,55 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+body,
+html {
+    @apply h-full;
+}
+
+body {
+    @apply flex flex-col;
+}
+
+.light {
+    @apply border-black bg-gray-200 text-black;
+}
+
+.dark {
+    @apply border-white bg-gray-900 text-white;
+}
+
+.container {
+    @apply mx-auto max-w-[1200px] px-2;
+}
+
+.h1_title {
+    @apply text-4xl leading-30 font-bold;
+}
+
+.h2_title {
+    @apply text-3xl leading-30 font-bold;
+}
+
+.h3_title {
+    @apply text-xl leading-20 font-bold;
+}
+
+.text {
+    @apply text-[1.25rem] font-medium;
+}
+
+.text_small {
+    @apply text-[1rem] font-normal;
+}
+
+.link {
+    @apply block border p-2 text-center;
+}
+
+.link:hover {
+    @apply text-neutral-400 underline transition-colors duration-200;
+}
+
+.button {
+}

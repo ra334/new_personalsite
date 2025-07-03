@@ -1,4 +1,4 @@
-import '@src/app/globals.css'
+import './globals.css'
 import { routing } from '@src/i18n/routing'
 import { NextIntlClientProvider, hasLocale } from 'next-intl'
 import { IBM_Plex_Mono } from 'next/font/google'
