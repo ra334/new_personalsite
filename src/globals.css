@@ -20,7 +20,7 @@ body {
 }
 
 .container {
-    @apply mx-auto max-w-[1200px] px-2;
+    @apply mx-auto mb-4 max-w-[1200px];
 }
 
 .h1_title {
