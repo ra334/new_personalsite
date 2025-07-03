@@ -1,16 +1,16 @@
-import { getRequestConfig } from "next-intl/server"
-import { hasLocale } from "next-intl"
-import { routing } from "./routing"
-
+import { routing } from './routing'
+import enAbout from '@/locales/en/about.json'
+import enAdmin from '@/locales/en/admin.json'
 import enCommon from '@/locales/en/common.json'
 import enHome from '@/locales/en/home.json'
-import enAbout from '@/locales/en/about.json'
 import enProjects from '@/locales/en/projects.json'
-
+import ukAbout from '@/locales/uk/about.json'
+import ukAdmin from '@/locales/uk/admin.json'
 import ukCommon from '@/locales/uk/common.json'
 import ukHome from '@/locales/uk/home.json'
-import ukAbout from '@/locales/uk/about.json'
 import ukProjects from '@/locales/uk/projects.json'
+import { hasLocale } from 'next-intl'
+import { getRequestConfig } from 'next-intl/server'
 
 export default getRequestConfig(async ({ requestLocale }) => {
     const requested = await requestLocale
@@ -23,18 +23,20 @@ export default getRequestConfig(async ({ requestLocale }) => {
             common: enCommon,
             home: enHome,
             about: enAbout,
-            projects: enProjects
+            projects: enProjects,
+            admin: enAdmin,
         },
         uk: {
             common: ukCommon,
             home: ukHome,
             about: ukAbout,
-            projects: ukProjects
-        }
+            projects: ukProjects,
+            admin: ukAdmin,
+        },
     }
 
     return {
         locale,
-        messages: messages[locale]
+        messages: messages[locale],
     }
 })

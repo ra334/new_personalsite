@@ -1,0 +1,29 @@
+{
+    "sidebar": {
+        "dashboard": "Dashboard",
+        "writeNew": "Write new",
+        "articles": "Articles",
+        "drafts": "Drafts",
+        "aritcleIdeas": "Article Ideas"
+    },
+
+    "dashboard": {
+        "title": "Statistics",
+        "totalArticles": "Total Articles",
+        "draftArticles": "Draft Articles",
+        "publications": {
+            "title": "Publications",
+            "lastWeek": "for the last week",
+            "lastMonth": "for the last month"
+        },
+        "drafts": {
+            "title": "Drafts",
+            "lastEdited": "Last Edited",
+            "noDrafts": "No drafts available"
+        },
+        "languages": {
+            "title": "Languages",
+            "missingTranslations": "Missing Translations"
+        }
+    }
+}

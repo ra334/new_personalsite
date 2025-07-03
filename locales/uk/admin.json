@@ -1,0 +1,29 @@
+{
+    "sidebar": {
+        "dashboard": "Панель управління",
+        "writeNew": "Написати нову",
+        "articles": "Статті",
+        "drafts": "Чернетки",
+        "articleIdeas": "Ідеї для статей"
+    },
+
+    "dashboard": {
+        "title": "Статистика",
+        "totalArticles": "Всього статей",
+        "draftArticles": "Чернетки статей",
+        "publications": {
+            "title": "Публікації",
+            "lastWeek": "за останній тиждень",
+            "lastMonth": "за останній місяць"
+        },
+        "drafts": {
+            "title": "Чернетки",
+            "lastEdited": "Останнє редагування",
+            "noDrafts": "Немає чернеток"
+        },
+        "languages": {
+            "title": "Мови",
+            "missingTranslations": "Відсутні переклади"
+        }
+    }
+}
