@@ -4,7 +4,7 @@ import Editor from '@src/layouts/admin/Editor'
 import EditorToolBar from '@src/layouts/admin/EditorToolBar'
 import Sidebar from '@src/layouts/admin/Sidebar'
 import { type Editor as EditorType } from '@tiptap/react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 function WriteNewPage() {
     const [editor, setEditor] = useState<EditorType | null>(null)
