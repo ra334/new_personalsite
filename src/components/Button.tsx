@@ -14,6 +14,7 @@ function Button({ className, onClick, children }: ButtonProps) {
         'px-2',
         'hover:border-slate-500',
         'hover:text-slate-500',
+        'w-full',
         className,
     ].join(' ')
 
