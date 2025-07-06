@@ -1,0 +1,95 @@
+/* Basic editor styles */
+.tiptap {
+    :first-child {
+        margin-top: 0;
+    }
+
+    /* Code block container */
+    pre {
+        background-color: #1e1e1e;
+        color: #d4d4d4;
+        font-family:
+            'JetBrainsMono', 'Fira Code', 'Consolas', 'Courier New', monospace;
+        margin: 1.5rem 0;
+        padding: 1rem 1.25rem;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+
+        code {
+            background: none;
+            color: inherit;
+            font-size: 0.85rem;
+            padding: 0;
+        }
+
+        /* Comments and quoted text */
+        .hljs-comment,
+        .hljs-quote {
+            color: #6a9955;
+            font-style: italic;
+        }
+
+        /* Keywords (e.g., function, var, if, for) */
+        .hljs-keyword {
+            color: #569cd6;
+        }
+
+        /* Function, class, or method names */
+        .hljs-title.function_,
+        .hljs-title.class_ {
+            color: #dcdcaa;
+        }
+
+        /* Symbols or specific language constructs */
+        .hljs-symbol {
+            color: #dcdcaa;
+        }
+
+        /* Data types and built-in elements */
+        .hljs-type,
+        .hljs-built_in {
+            color: #4ec9b0;
+        }
+
+        /* Metadata or attributes */
+        .hljs-meta {
+            color: #d7ba7d;
+        }
+
+        /* String literals */
+        .hljs-string {
+            color: #ce9178;
+        }
+
+        /* Numeric literals */
+        .hljs-number {
+            color: #b5cea8;
+        }
+
+        /* Boolean values and constants */
+        .hljs-literal {
+            color: #569cd6;
+        }
+
+        /* Variables and parameters */
+        .hljs-variable,
+        .hljs-params {
+            color: #9cdcfe;
+        }
+
+        /* Operators and punctuation */
+        .hljs-operator,
+        .hljs-punctuation {
+            color: #d4d4d4;
+        }
+
+        /* -- Additional styles -- */
+        .hljs-emphasis {
+            font-style: italic;
+        }
+
+        .hljs-strong {
+            font-weight: bold;
+        }
+    }
+}

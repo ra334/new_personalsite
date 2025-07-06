@@ -1,13 +1,38 @@
 'use client'
 
+import Button from '@src/components/Button'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useState } from 'react'
 
-function Sidebar() {
+function Sidebar({
+    isWriteNewPage = false,
+    saveHandler = () => {},
+}: {
+    isWriteNewPage?: boolean
+    saveHandler?: (publishValue: boolean, draftValue: boolean) => void
+}) {
     const t = useTranslations('admin')
     const router = usePathname()
     const pathWithoutLocale = router.replace(/\/[a-z]{2}\//, '/')
+    const [publishValue, setPublishValue] = useState<boolean>(false)
+    const [draftValue, setDraftValue] = useState<boolean>(false)
+
+    function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+        const { id, checked } = event.target
+        if (id === 'publish') {
+            if (draftValue) {
+                setDraftValue(false)
+            }
+            setPublishValue(checked)
+        } else if (id === 'draft') {
+            if (publishValue) {
+                setPublishValue(false)
+            }
+            setDraftValue(checked)
+        }
+    }
 
     const sidebarList = [
         {
@@ -33,24 +58,57 @@ function Sidebar() {
     ]
 
     return (
-        <aside className="h-full">
-            <nav className="h-full">
-                <ul className="border flex flex-col gap-3 w-48 h-full py-4">
+        <aside className="h-full border">
+            <nav className="h-full flex flex-col justify-between">
+                <ul className="flex flex-col gap-3 w-48 py-4">
                     {sidebarList.map((item, index) => (
-                        <Link href={item.href} key={index}>
-                            <li
-                                className={
-                                    'hover:bg-gray-400 hover:text-black py-2 px-2 ' +
-                                    (item.href === pathWithoutLocale
-                                        ? 'bg-gray-400 text-black'
-                                        : '')
-                                }
-                            >
-                                {item.name}
-                            </li>
-                        </Link>
+                        <li key={index}>
+                            <Link href={item.href}>
+                                <span
+                                    className={
+                                        'hover:bg-gray-400 hover:text-black py-2 px-2 block ' +
+                                        (item.href === pathWithoutLocale
+                                            ? 'bg-gray-400 text-black'
+                                            : '')
+                                    }
+                                >
+                                    {item.name}
+                                </span>
+                            </Link>
+                        </li>
                     ))}
                 </ul>
+                {isWriteNewPage ? (
+                    <div className="p-4 flex flex-col gap-4">
+                        <div className="flex flex-col gap-4">
+                            <div className="flex gap-2 items-center">
+                                <input
+                                    checked={publishValue}
+                                    onChange={handleChange}
+                                    type="checkbox"
+                                    id="publish"
+                                />
+                                <label htmlFor="publish">Publish</label>
+                            </div>
+                            <div className="flex gap-2 items-center">
+                                <input
+                                    checked={draftValue}
+                                    onChange={handleChange}
+                                    type="checkbox"
+                                    id="draft"
+                                />
+                                <label htmlFor="draft">Draft</label>
+                            </div>
+                        </div>
+                        <Button
+                            onClick={() =>
+                                saveHandler(publishValue, draftValue)
+                            }
+                        >
+                            Save
+                        </Button>
+                    </div>
+                ) : null}
             </nav>
         </aside>
     )
