@@ -1,9 +1,7 @@
-import { timestamp, pgTable, text } from 'drizzle-orm/pg-core'
+import { timestamp, pgTable, text, uuid } from 'drizzle-orm/pg-core'
 
 export const users = pgTable('user', {
-    id: text('id')
-        .primaryKey()
-        .$defaultFn(() => crypto.randomUUID()),
+    id: uuid('id').primaryKey().defaultRandom(),
     name: text('name'),
     email: text('email').unique(),
     emailVerified: timestamp('emailVerified', { mode: 'date' }),
