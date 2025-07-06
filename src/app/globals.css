@@ -54,6 +54,3 @@ p {
 .link:hover {
     @apply text-neutral-400 underline transition-colors duration-200;
 }
-
-.button {
-}
