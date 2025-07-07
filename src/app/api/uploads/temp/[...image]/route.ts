@@ -29,8 +29,6 @@ export async function GET(
         const fileBuffer = fs.readFileSync(imagePath)
         const ext = path.extname(imagePath).slice(1)
 
-        console.log('EXT:', ext)
-
         return new Response(fileBuffer, {
             status: 200,
             headers: {
