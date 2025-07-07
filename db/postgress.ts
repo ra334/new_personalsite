@@ -1,6 +1,6 @@
 import { accounts } from './schema/accounts-schema'
 import { authenticators } from './schema/authenticator-schema'
-import { media } from './schema/media-schema'
+import { medias } from './schema/medias-schema'
 import { posts } from './schema/posts-schema'
 import { sessions } from './schema/sessions-schema'
 import { users } from './schema/users-schema'
@@ -15,7 +15,7 @@ export const db = drizzle(process.env.DATABASE_URL!, {
         ...sessions,
         ...verificationTokens,
         ...authenticators,
-        ...media,
+        ...medias,
         ...posts,
     },
 })
