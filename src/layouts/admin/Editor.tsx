@@ -43,6 +43,59 @@ lowlight.register('json', json)
 lowlight.register('rust', rust)
 lowlight.register('verilog', verilog)
 
+export async function uploadImage(
+    file: File,
+    onProgress?: (event: { progress: number }) => void,
+    abortSignal?: AbortSignal,
+): Promise<string> {
+    return new Promise((resolve, reject) => {
+        if (file.size > MAX_FILE_SIZE) {
+            return reject(
+                new Error(
+                    `File size exceeds maximum allowed (${MAX_FILE_SIZE / (1024 * 1024)}MB)`,
+                ),
+            )
+        }
+
+        const formData = new FormData()
+        formData.append('file', file)
+
+        const xhr = new XMLHttpRequest()
+
+        xhr.open('POST', '/api/uploads/temp', true)
+
+        xhr.upload.onprogress = (event) => {
+            if (event.lengthComputable && onProgress) {
+                const percent = Math.round((event.loaded / event.total) * 100)
+                onProgress({ progress: percent })
+            }
+        }
+
+        xhr.onload = () => {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                try {
+                    const json = JSON.parse(xhr.responseText)
+                    resolve(json.url)
+                } catch (err) {
+                    reject(new Error('Invalid response format'))
+                }
+            } else {
+                reject(new Error(`Upload failed: ${xhr.statusText}`))
+            }
+        }
+
+        xhr.onerror = () => reject(new Error('Upload failed'))
+
+        xhr.onabort = () => reject(new Error('Upload cancelled'))
+
+        abortSignal?.addEventListener('abort', () => {
+            xhr.abort()
+        })
+
+        xhr.send(formData)
+    })
+}
+
 function Editor({
     setEditor,
 }: {
@@ -63,7 +116,7 @@ function Editor({
             ImageUploadNode.configure({
                 accept: 'image/*',
                 maxSize: MAX_FILE_SIZE,
-                upload: handleImageUpload,
+                upload: uploadImage,
                 onError: (error) => console.error('Upload failed:', error),
             }),
         ],
