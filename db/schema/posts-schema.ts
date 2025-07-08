@@ -1,4 +1,3 @@
-import { medias } from './medias-schema'
 import {
     boolean,
     timestamp,
@@ -17,7 +16,6 @@ export const posts = pgTable('posts', {
     metaTitle: text('metaTitle'),
     metaDescription: text('metaDescription'),
     metaKeywords: text('metaKeywords'),
-    coverImageId: uuid('coverImageId').references(() => medias.id),
     isPublished: boolean('isPublished').default(false),
     deletedAt: timestamp('deletedAt', { mode: 'date' }),
     createdAt: timestamp('createdAt', { mode: 'date' }).defaultNow(),
