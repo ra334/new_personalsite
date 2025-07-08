@@ -12,13 +12,7 @@ export async function GET(
     if (session) {
         const { image } = await params
 
-        const imagePath = path.join(
-            process.cwd(),
-            'public',
-            'uploads',
-            'temp',
-            image[0],
-        )
+        const imagePath = path.join(process.cwd(), 'public', 'temp', image[0])
 
         if (!fs.existsSync(imagePath)) {
             return new Response(JSON.stringify({ error: 'File not found' }), {

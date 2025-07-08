@@ -13,11 +13,7 @@ export async function POST(req: NextRequest) {
     const session = await auth()
 
     if (session) {
-        const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'temp')
-
-        if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir, { recursive: true })
-        }
+        const uploadDir = path.join(process.cwd(), 'blog', 'temp')
 
         const formData = await req.formData()
         const file = formData.get('file') as File | null
