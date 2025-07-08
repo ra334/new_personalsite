@@ -16,7 +16,7 @@
         "@auth/drizzle-adapter": "^1.9.1",
         "@floating-ui/react": "^0.27.13",
         "@tiptap/extension-code-block-lowlight": "^2.24.2",
-        "@tiptap/extension-image": "^2.24.2",
+        "@tiptap/extension-image": "^2.25.0",
         "@tiptap/extension-link": "^2.24.2",
         "@tiptap/extension-subscript": "^2.24.2",
         "@tiptap/extension-superscript": "^2.24.2",
