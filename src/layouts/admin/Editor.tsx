@@ -1,6 +1,7 @@
 'use client'
 
 import '@src/components/tiptap/tiptap-node/code-block-node/code-block-node.scss'
+import CustomImage from '@src/components/tiptap/tiptap-node/customImage-node/Image'
 import { ImageUploadNode } from '@src/components/tiptap/tiptap-node/image-upload-node'
 import '@src/components/tiptap/tiptap-node/list-node/list-node.scss'
 import '@src/components/tiptap/tiptap-node/paragraph-node/paragraph-node.scss'
@@ -10,7 +11,6 @@ import '@src/styles/_variables.scss'
 import '@src/styles/lowlight.scss'
 import '@src/styles/style.scss'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
-import { Image } from '@tiptap/extension-image'
 import { Link } from '@tiptap/extension-link'
 import { Subscript } from '@tiptap/extension-subscript'
 import { Superscript } from '@tiptap/extension-superscript'
@@ -112,7 +112,7 @@ function Editor({
             Superscript,
             Subscript,
             Link,
-            Image,
+            CustomImage,
             ImageUploadNode.configure({
                 accept: 'image/*',
                 maxSize: MAX_FILE_SIZE,
