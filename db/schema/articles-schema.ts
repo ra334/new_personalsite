@@ -8,7 +8,7 @@ import {
     uuid,
 } from 'drizzle-orm/pg-core'
 
-export const posts = pgTable('posts', {
+export const articles = pgTable('articles', {
     id: uuid('id').primaryKey().defaultRandom(),
     lang: varchar('lang', { length: 2 }).notNull(),
     title: text('title').notNull(),
