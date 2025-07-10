@@ -6,8 +6,8 @@ interface MoonIconProps {
 function MoonIcon({ width = 20, height = 20 }: MoonIconProps) {
     return (
         <svg
-            width={width + "px"}
-            height={height + "px"}
+            width={width + 'px'}
+            height={height + 'px'}
             viewBox="0 0 18 18"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

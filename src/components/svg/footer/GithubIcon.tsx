@@ -7,8 +7,8 @@ function GithubIcon({ width = 25, height = 25 }: GithubIconProps) {
     return (
         <svg
             fill="currentColor"
-            width={width + "px"}
-            height={height + "px"}
+            width={width + 'px'}
+            height={height + 'px'}
             viewBox="0 0 32 32"
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"

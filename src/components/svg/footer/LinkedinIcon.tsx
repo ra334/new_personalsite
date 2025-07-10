@@ -7,8 +7,8 @@ function LinkedInIcon({ width = 25, height = 25 }: LinkedInIconProps) {
     return (
         <svg
             fill="currentColor"
-            height={height + "px"}
-            width={width + "px"}
+            height={height + 'px'}
+            width={width + 'px'}
             version="1.1"
             id="Layer_1"
             viewBox="-143 145 512 512"

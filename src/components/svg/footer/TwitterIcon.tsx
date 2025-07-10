@@ -7,8 +7,8 @@ function TwitterIcon({ width = 25, height = 25 }: TwitterIconProps) {
     return (
         <svg
             fill="currentColor"
-            height={height + "px"}
-            width={width + "px"}
+            height={height + 'px'}
+            width={width + 'px'}
             version="1.1"
             id="Layer_1"
             xmlns="http://www.w3.org/2000/svg"

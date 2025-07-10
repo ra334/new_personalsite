@@ -6,8 +6,8 @@ interface EmailIconProps {
 function EmailIcon({ width = 25, height = 25 }: EmailIconProps) {
     return (
         <svg
-            width={width + "px"}
-            height={height + "px"}
+            width={width + 'px'}
+            height={height + 'px'}
             viewBox="0 0 24 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

@@ -7,8 +7,8 @@ function TorIcon({ width = 20, height = 20 }: TorIconProps) {
     return (
         <svg
             fill="currentColor"
-            width={width + "px"}
-            height={height + "px"}
+            width={width + 'px'}
+            height={height + 'px'}
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
             role="img"

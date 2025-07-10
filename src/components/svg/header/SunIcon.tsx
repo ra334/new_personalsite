@@ -6,8 +6,8 @@ interface SunIconProps {
 function SunIcon({ width = 20, height = 20 }: SunIconProps) {
     return (
         <svg
-            width={width + "px"}
-            height={height + "px"}
+            width={width + 'px'}
+            height={height + 'px'}
             viewBox="0 0 16 16"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -29,7 +29,11 @@ function SunIcon({ width = 20, height = 20 }: SunIconProps) {
             </g>
             <defs>
                 <clipPath id="clip0_2_2">
-                    <rect width={width + "px"} height={height + "px"} fill="white" />
+                    <rect
+                        width={width + 'px'}
+                        height={height + 'px'}
+                        fill="white"
+                    />
                 </clipPath>
             </defs>
         </svg>
