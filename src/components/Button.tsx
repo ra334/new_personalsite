@@ -16,7 +16,7 @@ function Button({ className, onClick, children, type }: ButtonProps) {
         'hover:border-slate-500',
         'hover:text-slate-500',
         'w-full',
-        '!bg-white',
+        ,
         className,
     ].join(' ')
 
