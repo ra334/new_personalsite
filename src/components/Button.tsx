@@ -9,13 +9,14 @@ function Button({ className, onClick, children, type }: ButtonProps) {
     const classNames = [
         'cursor-pointer',
         'border',
-        'border-black',
+        'border-inherit',
         'dark:border-white',
         'py-1',
         'px-2',
         'hover:border-slate-500',
         'hover:text-slate-500',
         'w-full',
+        '!bg-white',
         className,
     ].join(' ')
 
