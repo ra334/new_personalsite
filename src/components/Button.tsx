@@ -2,9 +2,10 @@ interface ButtonProps {
     className?: string
     onClick?: () => void
     children?: React.ReactNode
+    type?: 'button' | 'submit' | 'reset'
 }
 
-function Button({ className, onClick, children }: ButtonProps) {
+function Button({ className, onClick, children, type }: ButtonProps) {
     const classNames = [
         'cursor-pointer',
         'border',
@@ -19,7 +20,7 @@ function Button({ className, onClick, children }: ButtonProps) {
     ].join(' ')
 
     return (
-        <button className={classNames} onClick={onClick}>
+        <button className={classNames} onClick={onClick} type={type}>
             {children}
         </button>
     )
