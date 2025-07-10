@@ -1,4 +1,3 @@
-import '@src/app/globals.css'
 import Image from '@tiptap/extension-image'
 import {
     NodeViewWrapper,
