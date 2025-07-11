@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react'
 
 export const ImageNode = (props: NodeViewProps) => {
     const { src, alt } = props.node.attrs
+    const { editor } = props
     const { updateAttributes } = props
     const [imageAlt, setImageAlt] = useState(alt || '')
 
@@ -18,20 +19,22 @@ export const ImageNode = (props: NodeViewProps) => {
     return (
         <NodeViewWrapper className="relative">
             <img src={src} alt={imageAlt} className="m-auto" />
-            <input
-                type="text"
-                placeholder="Alt text"
-                defaultValue={imageAlt}
-                onChange={(e) => setImageAlt(e.target.value)}
-                style={{
-                    position: 'absolute',
-                    bottom: '5px',
-                    left: '5px',
-                    border: '1px solid black',
-                    backgroundColor: 'white',
-                    color: 'black',
-                }}
-            />
+            {editor.isEditable && (
+                <input
+                    type="text"
+                    placeholder="Alt text"
+                    defaultValue={imageAlt}
+                    onChange={(e) => setImageAlt(e.target.value)}
+                    style={{
+                        position: 'absolute',
+                        bottom: '5px',
+                        left: '5px',
+                        border: '1px solid black',
+                        backgroundColor: 'white',
+                        color: 'black',
+                    }}
+                />
+            )}
         </NodeViewWrapper>
     )
 }
