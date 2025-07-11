@@ -8,10 +8,10 @@ import { useState } from 'react'
 
 function Sidebar({
     isWriteNewPage = false,
-    saveHandler = () => {},
+    preSaveHandler = () => {},
 }: {
     isWriteNewPage?: boolean
-    saveHandler?: (publishValue: boolean, draftValue: boolean) => void
+    preSaveHandler?: (publishValue: boolean, draftValue: boolean) => void
 }) {
     const t = useTranslations('admin')
     const router = usePathname()
@@ -21,6 +21,7 @@ function Sidebar({
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         const { id, checked } = event.target
+        console.log(`Checkbox ${id} changed to ${checked}`)
         if (id === 'publish') {
             if (draftValue) {
                 setDraftValue(false)
@@ -102,7 +103,7 @@ function Sidebar({
                         </div>
                         <Button
                             onClick={() =>
-                                saveHandler(publishValue, draftValue)
+                                preSaveHandler(publishValue, draftValue)
                             }
                         >
                             Save

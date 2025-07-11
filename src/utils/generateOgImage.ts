@@ -29,6 +29,8 @@ export async function generateOgImage(
 
     const buffer = canvas.toBuffer('image/jpeg')
     fs.writeFileSync(outputPath, buffer)
+
+    return outputPath
 }
 
 function wrapText(
