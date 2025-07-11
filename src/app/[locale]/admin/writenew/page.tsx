@@ -101,12 +101,11 @@ function WriteNewPage() {
             return
         }
 
-        const contentJSON = JSON.stringify(content)
         const title = getTitle(content)
 
         const article = await createArticleAction({
             ...formData,
-            content: contentJSON,
+            content,
             isPublished: publishValue,
             title,
         })
