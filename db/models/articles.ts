@@ -1,5 +1,5 @@
 import { db } from '../postgress'
-import { articles } from '../schema/articles-schema'
+import { articles } from '../schema/articles'
 import { eq, count } from 'drizzle-orm'
 
 export interface Article {

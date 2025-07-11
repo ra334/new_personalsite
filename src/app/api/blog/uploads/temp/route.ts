@@ -1,5 +1,5 @@
 import { auth } from '@src/auth'
-import { uploadMedia } from '@src/server/services/medias-service'
+import { uploadMedia } from '@src/server/services/medias'
 import { NextRequest } from 'next/server'
 
 export async function POST(req: NextRequest) {

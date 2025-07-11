@@ -1,5 +1,5 @@
-import { createMedia } from '@/db/models/media-model'
-import type { MediaType } from '@/db/models/media-model'
+import { createMedia } from '@/db/models/media'
+import type { MediaType } from '@/db/models/media'
 import fs from 'fs'
 import path from 'path'
 import z from 'zod'

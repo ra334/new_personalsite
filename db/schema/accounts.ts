@@ -1,4 +1,4 @@
-import { users } from './users-schema'
+import { users } from './users'
 import { pgTable, primaryKey, text, integer, uuid } from 'drizzle-orm/pg-core'
 import type { AdapterAccountType } from 'next-auth/adapters'
 

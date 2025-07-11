@@ -1,5 +1,5 @@
 import { db } from '../postgress'
-import { medias } from '../schema/medias-schema'
+import { medias } from '../schema/medias'
 import { eq } from 'drizzle-orm'
 
 export type MediaType =
