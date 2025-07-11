@@ -1,5 +1,10 @@
-import { createMedia } from '@/db/models/media'
-import type { MediaType } from '@/db/models/media'
+import {
+    createMedia,
+    getMediaById,
+    getTempMedia,
+    updateMedia,
+} from '@/db/models/media'
+import type { MediaType, Media } from '@/db/models/media'
 import fs from 'fs'
 import path from 'path'
 import z from 'zod'
@@ -55,4 +60,45 @@ export async function uploadMedia(file: File, mime: string): Promise<string> {
     }
 
     return imageUrl
+}
+
+export async function getMedia(id: string): Promise<Media> {
+    const schema = z.object({
+        id: z.uuid(),
+    })
+
+    const parsedData = schema.safeParse({ id })
+
+    if (!parsedData.success) {
+        throw new Error('Invalid media ID')
+    }
+
+    try {
+        return await getMediaById(id)
+    } catch (error) {
+        throw new Error('Media not found')
+    }
+}
+
+export async function moveAllTempMediaToPermanent(
+    slug: string,
+): Promise<boolean> {
+    const tempMedia = await getTempMedia()
+
+    const pathUrl = `/api/blog/${slug}/`
+
+    for (const media of tempMedia) {
+        const newUrl = pathUrl + media.url.split('/').pop()
+        try {
+            await updateMedia(media.id, {
+                url: newUrl,
+                isTemp: false,
+            })
+        } catch (error) {
+            console.error('Failed to update media:', error)
+            return false
+        }
+    }
+
+    return true
 }
