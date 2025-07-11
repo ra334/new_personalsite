@@ -31,10 +31,10 @@ import rust from 'highlight.js/lib/languages/rust'
 import ts from 'highlight.js/lib/languages/typescript'
 import verilog from 'highlight.js/lib/languages/verilog'
 import html from 'highlight.js/lib/languages/xml'
-import { all, createLowlight } from 'lowlight'
+import { createLowlight } from 'lowlight'
 import { useEffect } from 'react'
 
-const lowlight = createLowlight(all)
+const lowlight = createLowlight()
 lowlight.register('html', html)
 lowlight.register('css', css)
 lowlight.register('js', js)
