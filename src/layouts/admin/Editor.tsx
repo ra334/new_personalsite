@@ -98,10 +98,15 @@ export async function uploadImage(
 
 function Editor({
     setEditor,
+    isEditable = true,
+    content = '<p>Write new article</p>',
 }: {
     setEditor?: (editor: EditorType | null) => void
+    isEditable?: boolean
+    content?: string
 }) {
     const editor = useEditor({
+        editable: isEditable,
         extensions: [
             StarterKit,
             TaskList,
@@ -120,7 +125,7 @@ function Editor({
                 onError: (error) => console.error('Upload failed:', error),
             }),
         ],
-        content: `<p>Write new article</p>`,
+        content,
     })
 
     useEffect(() => {
