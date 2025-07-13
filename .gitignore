@@ -42,3 +42,4 @@ next-env.d.ts
 
 # blog content
 blog
+!src/app/api/blog
