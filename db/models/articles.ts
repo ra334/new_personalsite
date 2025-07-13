@@ -99,9 +99,12 @@ export async function findById(id: string): Promise<Article> {
     return article
 }
 
-export async function findBySlug(slug: string): Promise<Article> {
+export async function findBySlug(
+    slug: string,
+    published: boolean,
+): Promise<Article> {
     const article = await db.query.articles.findFirst({
-        where: eq(articles.slug, slug),
+        where: (row) => eq(row.slug, slug) && eq(row.isPublished, published),
     })
 
     if (!article) {
