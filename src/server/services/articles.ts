@@ -6,6 +6,8 @@ import {
     findBySlug,
     findManyPaginated,
     findManySlugs,
+    countPublished,
+    countDrafts,
 } from '@/db/models/articles'
 import { moveGeneratedFiles } from '@src/utils/fileOps'
 import { generateOgImage } from '@src/utils/generateOgImage'
@@ -67,7 +69,7 @@ export async function createArticle(
     }
 }
 
-export async function getArticleById(id: string): Promise<Article | null> {
+export async function getArticleById(id: string): Promise<Article> {
     try {
         const article = await findById(id)
 
@@ -83,14 +85,16 @@ export async function getArticleById(id: string): Promise<Article | null> {
     }
 }
 
-export async function getArticleBySlug(slug: string): Promise<Article | null> {
+export async function getArticleBySlug(
+    slug: string,
+    published: boolean,
+): Promise<Article> {
     try {
-        const article = await findBySlug(slug)
+        const article = await findBySlug(slug, published)
 
         return article
     } catch (error) {
-        console.error('Error fetching article by slug:', error)
-        return null
+        throw new Error('An unknown error occurred while fetching the article')
     }
 }
 
@@ -114,6 +118,24 @@ export async function getAllArticlesSlugs(): Promise<string[]> {
     } catch (error) {
         console.error('Error fetching article slugs:', error)
         return []
+    }
+}
+
+export async function getCountPublishedArticles(): Promise<number> {
+    try {
+        return await countPublished()
+    } catch (error) {
+        console.error('Error counting published articles:', error)
+        return 0
+    }
+}
+
+export async function getCountDraftArticles(): Promise<number> {
+    try {
+        return await countDrafts()
+    } catch (error) {
+        console.error('Error counting draft articles:', error)
+        return 0
     }
 }
 
