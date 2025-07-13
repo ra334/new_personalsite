@@ -3,11 +3,7 @@
 import { type CreateArticleInput } from '../services/articles'
 import { type Article } from '@/db/models/articles'
 import { auth } from '@src/auth'
-import {
-    createArticle,
-    getArticleById,
-    getArticleBySlug,
-} from '@src/server/services/articles'
+import { createArticle } from '@src/server/services/articles'
 import z from 'zod'
 
 export async function createArticleAction(
@@ -23,7 +19,7 @@ export async function createArticleAction(
     const articleSchema = z.object({
         lang: z.string().nonempty(),
         title: z.string().nonempty(),
-        content: z.string().nonempty(),
+        content: z.object(),
         isPublished: z.boolean(),
         metaTitle: z.string().nonempty(),
         metaDescription: z.string().nonempty(),
@@ -39,36 +35,4 @@ export async function createArticleAction(
     }
 
     return await createArticle(parsedData.data)
-}
-
-export async function getArticleByIdAction(
-    id: string,
-): Promise<Article | null> {
-    const articleSchema = z.object({
-        id: z.uuid(),
-    })
-
-    const parsedData = articleSchema.safeParse({ id })
-
-    if (!parsedData.success) {
-        throw new Error('Invalid article ID')
-    }
-
-    return await getArticleById(parsedData.data.id)
-}
-
-export async function getArticleBySlugAction(
-    slug: string,
-): Promise<Article | null> {
-    const articleSchema = z.object({
-        slug: z.string().nonempty(),
-    })
-
-    const parsedData = articleSchema.safeParse({ slug })
-
-    if (!parsedData.success) {
-        throw new Error('Invalid article slug')
-    }
-
-    return await getArticleBySlug(parsedData.data.slug)
 }
