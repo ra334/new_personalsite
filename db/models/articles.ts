@@ -138,6 +138,15 @@ export async function findManyPaginated(
     return articlesList
 }
 
+export async function findManySlugs(): Promise<string[]> {
+    const articlesList = await db
+        .select({ slug: articles.slug })
+        .from(articles)
+        .where(eq(articles.isPublished, true))
+
+    return articlesList.map((article) => article.slug)
+}
+
 export async function countPublished(): Promise<number> {
     const result = await db
         .select({ value: count() })
