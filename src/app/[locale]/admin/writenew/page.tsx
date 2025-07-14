@@ -96,12 +96,17 @@ function WriteNewPage() {
     async function handleSave(formData: FormData) {
         const content = editor?.getJSON()
 
-        if (!content) {
-            console.error('Editor content is empty')
+        if (!content || Object.keys(content).length === 0) {
+            toast.error('Content is required')
             return
         }
 
         const title = getTitle(content)
+
+        if (!title) {
+            toast.error('Title is required')
+            return
+        }
 
         const article = await createArticleAction({
             ...formData,
