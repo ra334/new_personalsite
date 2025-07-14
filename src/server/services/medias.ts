@@ -83,7 +83,18 @@ export async function getMedia(id: string): Promise<Media> {
 export async function moveAllTempMediaToPermanent(
     slug: string,
 ): Promise<boolean> {
-    const tempMedia = await getTempMedia()
+    let tempMedia: Media[] = []
+
+    try {
+        tempMedia = await getTempMedia()
+    } catch (error: unknown) {
+        if (
+            error instanceof Error &&
+            error.message === 'No temporary media found'
+        ) {
+            return true
+        }
+    }
 
     const pathUrl = `/api/blog/${slug}/`
 
