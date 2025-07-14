@@ -22,6 +22,7 @@ import {
     useEditor,
     EditorContent,
     type Editor as EditorType,
+    JSONContent,
 } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import css from 'highlight.js/lib/languages/css'
@@ -103,7 +104,7 @@ function Editor({
 }: {
     setEditor?: (editor: EditorType | null) => void
     isEditable?: boolean
-    content?: string
+    content?: JSONContent | string
 }) {
     const editor = useEditor({
         editable: isEditable,
