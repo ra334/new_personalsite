@@ -11,7 +11,13 @@ export function moveGeneratedFiles(
 
     fs.mkdirSync(articleDir, { recursive: true })
 
-    fs.readdirSync(tempDir).forEach((file) => {
+    const filesInTemp = fs.readdirSync(tempDir)
+
+    if (filesInTemp.length === 0) {
+        return true
+    }
+
+    filesInTemp.forEach((file) => {
         const filePath = path.join(tempDir, file)
         fs.renameSync(filePath, path.join(articleDir, file))
     })
