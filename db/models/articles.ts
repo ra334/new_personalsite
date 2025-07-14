@@ -1,6 +1,6 @@
 import { db } from '../postgress'
 import { articles } from '../schema/articles'
-import { eq, count } from 'drizzle-orm'
+import { eq, count, and } from 'drizzle-orm'
 
 export interface Article {
     id: string
@@ -104,7 +104,7 @@ export async function findBySlug(
     published: boolean,
 ): Promise<Article> {
     const article = await db.query.articles.findFirst({
-        where: (row) => eq(row.slug, slug) && eq(row.isPublished, published),
+        where: (row) => and(eq(row.slug, slug), eq(row.isPublished, published)),
     })
 
     if (!article) {
