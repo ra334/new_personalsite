@@ -2,6 +2,7 @@
 
 import '@src/components/tiptap/tiptap-node/code-block-node/code-block-node.scss'
 import CustomImage from '@src/components/tiptap/tiptap-node/customImage-node/Image'
+import { PublishedNode } from '@src/components/tiptap/tiptap-node/icon-node/PublishedNode'
 import { ImageUploadNode } from '@src/components/tiptap/tiptap-node/image-upload-node'
 import '@src/components/tiptap/tiptap-node/list-node/list-node.scss'
 import '@src/components/tiptap/tiptap-node/paragraph-node/paragraph-node.scss'
@@ -101,13 +102,16 @@ function Editor({
     setEditor,
     isEditable = true,
     content = '<p>Write new article</p>',
+    immediatelyRender = true,
 }: {
     setEditor?: (editor: EditorType | null) => void
     isEditable?: boolean
     content?: JSONContent | string
+    immediatelyRender: boolean
 }) {
     const editor = useEditor({
         editable: isEditable,
+        immediatelyRender,
         extensions: [
             StarterKit,
             TaskList,
@@ -125,6 +129,7 @@ function Editor({
                 upload: uploadImage,
                 onError: (error) => console.error('Upload failed:', error),
             }),
+            PublishedNode,
         ],
         content,
     })

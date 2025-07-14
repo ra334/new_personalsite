@@ -195,7 +195,10 @@ function WriteNewPage() {
                 />
                 <main className="justify-center items-center w-full pl-2">
                     <div className="h-full overflow-auto">
-                        <Editor setEditor={setEditor} />
+                        <Editor
+                            setEditor={setEditor}
+                            immediatelyRender={true}
+                        />
                     </div>
                 </main>
             </div>
