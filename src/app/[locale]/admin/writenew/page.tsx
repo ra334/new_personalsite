@@ -203,7 +203,7 @@ function WriteNewPage() {
                     <div className="h-full overflow-auto">
                         <Editor
                             setEditor={setEditor}
-                            immediatelyRender={true}
+                            immediatelyRender={false}
                         />
                     </div>
                 </main>
