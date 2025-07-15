@@ -21,6 +21,7 @@ export async function createArticleAction(
         lang: z.string().nonempty(),
         title: z.string().nonempty(),
         content: z.custom<JSONContent>(),
+        excerpt: z.string().nonempty(),
         isPublished: z.boolean(),
         metaTitle: z.string().nonempty(),
         metaDescription: z.string().nonempty(),

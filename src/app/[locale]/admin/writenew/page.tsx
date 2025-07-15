@@ -30,6 +30,7 @@ const schema = z.object({
         .min(1, { message: 'Meta description is required' }),
     ogTitle: z.string().min(1, { message: 'OG title is required' }),
     ogDescription: z.string().min(1, { message: 'OG description is required' }),
+    excerpt: z.string().min(1, { message: 'Excerpt is required' }),
 })
 
 type FormData = z.infer<typeof schema>
@@ -65,6 +66,11 @@ const modalBodyContent: Item[] = [
         label: 'OG Description',
         placeholder: 'og description',
         id: 'ogDescription',
+    },
+    {
+        label: 'Excerpt',
+        placeholder: 'excerpt',
+        id: 'excerpt',
     },
 ]
 

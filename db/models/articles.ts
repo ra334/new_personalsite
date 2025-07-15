@@ -8,6 +8,7 @@ export interface Article {
     title: string
     slug: string
     content: any
+    excerpt: string
     isPublished: boolean
     metaTitle: string | null
     metaDescription: string | null
@@ -24,6 +25,7 @@ export interface UpdateArticleData {
     title?: string
     slug?: string
     content?: any
+    excerpt?: string
     isPublished?: boolean
     metaTitle?: string
     metaDescription?: string
@@ -38,6 +40,7 @@ export interface CreateArticleData {
     title: string
     slug: string
     content: any
+    excerpt: string
     isPublished: boolean
     metaTitle?: string
     metaDescription?: string
@@ -52,6 +55,7 @@ export async function createOne({
     title,
     slug,
     content,
+    excerpt,
     isPublished,
     metaTitle,
     metaDescription,
@@ -68,6 +72,7 @@ export async function createOne({
                 title,
                 slug,
                 content,
+                excerpt,
                 isPublished,
                 metaTitle,
                 metaDescription,
@@ -131,10 +136,12 @@ export async function findPublished(
 export async function findManyPaginated(
     offset: number = 0,
     limit: number = 10,
+    lang: string,
 ): Promise<Article[]> {
     const articlesList = await db
         .select()
         .from(articles)
+        .where(eq(articles.lang, lang))
         .limit(limit)
         .offset(offset)
 
@@ -150,11 +157,11 @@ export async function findManySlugs(): Promise<string[]> {
     return articlesList.map((article) => article.slug)
 }
 
-export async function countPublished(): Promise<number> {
+export async function countPublished(lang: string): Promise<number> {
     const result = await db
         .select({ value: count() })
         .from(articles)
-        .where(eq(articles.isPublished, true))
+        .where(and(eq(articles.isPublished, true), eq(articles.lang, lang)))
 
     return result[0].value
 }

@@ -14,6 +14,7 @@ export const articles = pgTable('articles', {
     title: text('title').notNull(),
     slug: text('slug').notNull().unique(),
     content: jsonb('content').notNull(),
+    excerpt: text('excerpt').notNull(),
     isPublished: boolean('isPublished').notNull().default(false),
     metaTitle: text('metaTitle'),
     metaDescription: text('metaDescription'),

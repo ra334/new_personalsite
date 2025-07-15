@@ -19,6 +19,7 @@ export interface CreateArticleInput {
     lang: string
     title: string
     content: JSONContent
+    excerpt: string
     isPublished: boolean
     metaTitle: string
     metaDescription: string
@@ -101,9 +102,10 @@ export async function getArticleBySlug(
 export async function getArticles(
     offset: number,
     limit: number,
+    lang: string,
 ): Promise<Article[]> {
     try {
-        const articles = await findManyPaginated(offset, limit)
+        const articles = await findManyPaginated(offset, limit, lang)
         return articles
     } catch (error) {
         console.error('Error fetching articles:', error)
@@ -121,9 +123,9 @@ export async function getAllArticlesSlugs(): Promise<string[]> {
     }
 }
 
-export async function getCountPublishedArticles(): Promise<number> {
+export async function getCountPublishedArticles(lang: string): Promise<number> {
     try {
-        return await countPublished()
+        return await countPublished(lang)
     } catch (error) {
         console.error('Error counting published articles:', error)
         return 0
