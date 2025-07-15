@@ -8,21 +8,22 @@ import {
 import { format } from 'date-fns'
 import { uk, enUS } from 'date-fns/locale'
 import { Clock } from 'lucide-react'
-import { getTranslations } from 'next-intl/server'
 import Link from 'next/link'
 
 interface BlogPageProps {
     params: {
         locale: string
+        page: string
     }
 }
 
 async function BlogPage({ params }: BlogPageProps) {
-    const { locale } = await params
-    const t = await getTranslations('blog')
+    const { locale, page } = await params
 
+    const currentPage = parseInt(page)
     const articlesPerPage = 5
-    const articles = await getArticles(0, articlesPerPage, locale)
+    const offset = (parseInt(page) - 1) * articlesPerPage
+    const articles = await getArticles(offset, articlesPerPage, locale)
 
     const totalArticles = await getCountPublishedArticles(locale)
     const totalPages = Math.ceil(totalArticles / articlesPerPage)
@@ -36,14 +37,8 @@ async function BlogPage({ params }: BlogPageProps) {
     return (
         <>
             <Header />
-            <main className="container px-6 flex flex-col h-full">
-                {/* doesn't work some tailwind classes, maybe in future rewrite all style from tailwind to scss */}
-                <h1
-                    className="font-bold"
-                    style={{ fontSize: '1.875rem', padding: '20px 0 30px 0' }}
-                >
-                    {t('title')}
-                </h1>
+            <div className="container px-6 flex flex-col h-full">
+                <h1 className="text-3xl font-bold">Last articles</h1>
                 <div className="flex flex-col justify-between flex-grow">
                     <ul className="flex flex-col gap-4">
                         {articles.map((article, index) => {
@@ -71,12 +66,12 @@ async function BlogPage({ params }: BlogPageProps) {
                         })}
                     </ul>
                     <Paginator
-                        currentPage={1}
+                        currentPage={currentPage}
                         totalPages={totalPages}
                         className="p-6"
                     />
                 </div>
-            </main>
+            </div>
             <Footer />
         </>
     )
