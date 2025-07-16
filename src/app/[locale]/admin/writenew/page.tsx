@@ -116,7 +116,7 @@ function WriteNewPage() {
 
         const article = await createArticleAction({
             ...formData,
-            content,
+            content: JSON.stringify(content),
             isPublished: publishValue,
             title,
         })

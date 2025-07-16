@@ -18,7 +18,7 @@ import slugify from 'slugify'
 export interface CreateArticleInput {
     lang: string
     title: string
-    content: JSONContent
+    content: string
     excerpt: string
     isPublished: boolean
     metaTitle: string
@@ -45,8 +45,10 @@ export async function createArticle(
         SITE_URL,
     )
 
+    const convertedContent: JSONContent = JSON.parse(data.content)
+
     try {
-        const content: JSONContent = changeImagesSrc(data.content, slug)
+        const content: JSONContent = changeImagesSrc(convertedContent, slug)
 
         const article = await createOne({
             ...data,

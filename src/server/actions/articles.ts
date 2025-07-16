@@ -4,7 +4,6 @@ import { type CreateArticleInput } from '../services/articles'
 import { type Article } from '@/db/models/articles'
 import { auth } from '@src/auth'
 import { createArticle } from '@src/server/services/articles'
-import { type JSONContent } from '@tiptap/react'
 import z from 'zod'
 
 export async function createArticleAction(
@@ -20,7 +19,7 @@ export async function createArticleAction(
     const articleSchema = z.object({
         lang: z.string().nonempty(),
         title: z.string().nonempty(),
-        content: z.custom<JSONContent>(),
+        content: z.string().nonempty(),
         excerpt: z.string().nonempty(),
         isPublished: z.boolean(),
         metaTitle: z.string().nonempty(),
