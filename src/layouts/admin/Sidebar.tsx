@@ -48,14 +48,6 @@ function Sidebar({
             name: t('sidebar.articles'),
             href: '/admin/articles',
         },
-        {
-            name: t('sidebar.drafts'),
-            href: '/admin/drafts',
-        },
-        {
-            name: t('sidebar.articleIdeas'),
-            href: '/admin/articleideas',
-        },
     ]
 
     return (

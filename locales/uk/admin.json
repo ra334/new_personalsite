@@ -2,9 +2,7 @@
     "sidebar": {
         "dashboard": "Панель управління",
         "writeNew": "Написати нову",
-        "articles": "Статті",
-        "drafts": "Чернетки",
-        "articleIdeas": "Ідеї для статей"
+        "articles": "Статті"
     },
 
     "dashboard": {

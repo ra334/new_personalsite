@@ -2,9 +2,7 @@
     "sidebar": {
         "dashboard": "Dashboard",
         "writeNew": "Write new",
-        "articles": "Articles",
-        "drafts": "Drafts",
-        "aritcleIdeas": "Article Ideas"
+        "articles": "Articles"
     },
 
     "dashboard": {
