@@ -13,9 +13,10 @@ import Editor from '@src/layouts/admin/Editor'
 import EditorToolBar from '@src/layouts/admin/EditorToolBar'
 import Sidebar from '@src/layouts/admin/Sidebar'
 import { createArticleAction } from '@src/server/actions/articles'
+import { cleanTempDirectoryAction } from '@src/server/actions/fileOps'
 import { type JSONContent } from '@tiptap/core'
 import { type Editor as EditorType } from '@tiptap/react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import toast, { Toaster } from 'react-hot-toast'
 import { z } from 'zod'
@@ -86,6 +87,18 @@ function WriteNewPage() {
     } = useForm<FormData>({
         resolver: zodResolver(schema),
     })
+
+    useEffect(() => {
+        function cleanTemp() {
+            cleanTempDirectoryAction().catch((error) => {
+                console.error('Failed to clean temporary directory:', error)
+                toast.error('Failed to clean temporary directory')
+            })
+
+            console.log('Temporary directory cleaned')
+        }
+        cleanTemp()
+    }, [])
 
     function getTitle(jsonContent: JSONContent): string {
         if (!jsonContent.content?.length) return ''
