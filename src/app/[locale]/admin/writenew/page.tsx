@@ -212,7 +212,7 @@ function WriteNewPage() {
                     isWriteNewPage={true}
                     preSaveHandler={preSaveHandler}
                 />
-                <main className="justify-center items-center w-full pl-2">
+                <main className="w-full pl-2">
                     <div className="h-full overflow-auto">
                         <Editor
                             setEditor={setEditor}
