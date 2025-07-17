@@ -72,22 +72,6 @@ export async function createArticle(
     }
 }
 
-export async function getArticleById(id: string): Promise<Article> {
-    try {
-        const article = await findById(id)
-
-        return article
-    } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message)
-        } else {
-            throw new Error(
-                'An unknown error occurred while fetching the article',
-            )
-        }
-    }
-}
-
 export async function getArticleBySlug(
     slug: string,
     published: boolean,
