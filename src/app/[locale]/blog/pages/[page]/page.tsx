@@ -1,10 +1,8 @@
+import { findManyPaginated } from '@/db/models/articles'
 import Paginator from '@src/components/Paginator'
 import Footer from '@src/layouts/Footer'
 import Header from '@src/layouts/Header'
-import {
-    getArticles,
-    getCountPublishedArticles,
-} from '@src/server/services/articles'
+import { getCountPublishedArticles } from '@src/server/services/articles'
 import { format } from 'date-fns'
 import { uk, enUS } from 'date-fns/locale'
 import { Clock } from 'lucide-react'
@@ -23,7 +21,12 @@ async function BlogPage({ params }: BlogPageProps) {
     const currentPage = parseInt(page)
     const articlesPerPage = 5
     const offset = (parseInt(page) - 1) * articlesPerPage
-    const articles = await getArticles(offset, articlesPerPage, locale)
+    const articles = await findManyPaginated(
+        offset,
+        articlesPerPage,
+        locale,
+        true,
+    )
 
     const totalArticles = await getCountPublishedArticles(locale)
     const totalPages = Math.ceil(totalArticles / articlesPerPage)

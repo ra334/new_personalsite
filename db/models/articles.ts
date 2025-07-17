@@ -136,14 +136,20 @@ export async function findPublished(
 export async function findManyPaginated(
     offset: number = 0,
     limit: number = 10,
-    lang: string,
+    lang?: string,
+    isPublished?: boolean,
 ): Promise<Article[]> {
-    const articlesList = await db
-        .select()
-        .from(articles)
-        .where(eq(articles.lang, lang))
-        .limit(limit)
-        .offset(offset)
+    const query = db.select().from(articles).limit(limit).offset(offset)
+
+    if (lang) {
+        query.where(eq(articles.lang, lang))
+    }
+
+    if (isPublished) {
+        query.where(eq(articles.isPublished, isPublished))
+    }
+
+    const articlesList = await query
 
     return articlesList
 }

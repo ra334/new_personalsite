@@ -2,8 +2,6 @@ import { moveAllTempMediaToPermanent } from './medias'
 import {
     type Article,
     createOne,
-    findById,
-    findBySlug,
     findManyPaginated,
     findManySlugs,
     countPublished,
@@ -69,20 +67,6 @@ export async function createArticle(
                 'An unknown error occurred while fetching the article',
             )
         }
-    }
-}
-
-export async function getArticles(
-    offset: number,
-    limit: number,
-    lang: string,
-): Promise<Article[]> {
-    try {
-        const articles = await findManyPaginated(offset, limit, lang)
-        return articles
-    } catch (error) {
-        console.error('Error fetching articles:', error)
-        return []
     }
 }
 
