@@ -3,7 +3,7 @@ import ArticlesList from '@src/components/ArticlesList'
 import Paginator from '@src/components/Paginator'
 import Footer from '@src/layouts/Footer'
 import Header from '@src/layouts/Header'
-import { getCountPublishedArticles } from '@src/server/services/articles'
+import { countAllArticlesAction } from '@src/server/actions/articles'
 import { getTranslations } from 'next-intl/server'
 
 interface BlogPageProps {
@@ -24,7 +24,7 @@ async function BlogPage({ params }: BlogPageProps) {
         'published',
     )
 
-    const totalArticles = await getCountPublishedArticles(locale)
+    const totalArticles = await countAllArticlesAction(locale, 'published')
     const totalPages = Math.ceil(totalArticles / articlesPerPage)
 
     return (
