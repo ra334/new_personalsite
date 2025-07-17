@@ -50,8 +50,8 @@ export interface CreateArticleData {
     canonicalURL?: string
 }
 
-type ArticleStatus = 'published' | 'draft'
-type ArticleFilter = ArticleStatus | 'all'
+export type ArticleStatus = 'published' | 'draft'
+export type ArticleFilter = ArticleStatus | 'all'
 
 export async function createOne({
     lang,
