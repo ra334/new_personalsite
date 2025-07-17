@@ -17,7 +17,12 @@ async function BlogPage({ params }: BlogPageProps) {
     const t = await getTranslations('blog')
 
     const articlesPerPage = 5
-    const articles = await findManyPaginated(0, articlesPerPage, locale, true)
+    const articles = await findManyPaginated(
+        0,
+        articlesPerPage,
+        locale,
+        'published',
+    )
 
     const totalArticles = await getCountPublishedArticles(locale)
     const totalPages = Math.ceil(totalArticles / articlesPerPage)

@@ -24,7 +24,7 @@ async function BlogPage({ params }: BlogPageProps) {
         offset,
         articlesPerPage,
         locale,
-        true,
+        'published',
     )
 
     const totalArticles = await getCountPublishedArticles(locale)

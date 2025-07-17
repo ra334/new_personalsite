@@ -50,6 +50,9 @@ export interface CreateArticleData {
     canonicalURL?: string
 }
 
+type ArticleStatus = 'published' | 'draft'
+type ArticleFilter = ArticleStatus | 'all'
+
 export async function createOne({
     lang,
     title,
@@ -137,7 +140,7 @@ export async function findManyPaginated(
     offset: number = 0,
     limit: number = 10,
     lang?: string,
-    isPublished?: boolean,
+    status?: ArticleFilter,
 ): Promise<Article[]> {
     const conditions = []
 
@@ -145,8 +148,10 @@ export async function findManyPaginated(
         conditions.push(eq(articles.lang, lang))
     }
 
-    if (typeof isPublished === 'boolean') {
-        conditions.push(eq(articles.isPublished, isPublished))
+    if (status === 'published') {
+        conditions.push(eq(articles.isPublished, true))
+    } else if (status === 'draft') {
+        conditions.push(eq(articles.isPublished, false))
     }
 
     const query = db.select().from(articles).limit(limit).offset(offset)
@@ -169,20 +174,32 @@ export async function findManySlugs(): Promise<string[]> {
     return articlesList.map((article) => article.slug)
 }
 
-export async function countPublished(lang: string): Promise<number> {
-    const result = await db
-        .select({ value: count() })
-        .from(articles)
-        .where(and(eq(articles.isPublished, true), eq(articles.lang, lang)))
+export async function countAllArticles({
+    status,
+    lang,
+}: {
+    status: ArticleFilter
+    lang?: string
+}) {
+    const conditions = []
 
-    return result[0].value
-}
+    if (status === 'published') {
+        conditions.push(eq(articles.isPublished, true))
+    } else if (status === 'draft') {
+        conditions.push(eq(articles.isPublished, false))
+    }
 
-export async function countDrafts(): Promise<number> {
-    const result = await db
-        .select({ value: count() })
-        .from(articles)
-        .where(eq(articles.isPublished, false))
+    if (lang) {
+        conditions.push(eq(articles.lang, lang))
+    }
+
+    const query = db.select({ value: count() }).from(articles)
+
+    if (conditions.length > 0) {
+        query.where(and(...conditions))
+    }
+
+    const result = await query
 
     return result[0].value
 }
