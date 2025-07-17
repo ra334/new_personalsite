@@ -1,10 +1,8 @@
+import { findBySlug } from '@/db/models/articles'
 import Footer from '@src/layouts/Footer'
 import Header from '@src/layouts/Header'
 import Editor from '@src/layouts/admin/Editor'
-import {
-    getAllArticlesSlugs,
-    getArticleBySlug,
-} from '@src/server/services/articles'
+import { getAllArticlesSlugs } from '@src/server/services/articles'
 import { format } from 'date-fns'
 import { uk, enUS } from 'date-fns/locale'
 import type { Metadata } from 'next'
@@ -23,7 +21,7 @@ export async function generateMetadata({
     try {
         const { slug } = await params
 
-        const article = await getArticleBySlug(slug, true)
+        const article = await findBySlug(slug, true)
 
         return {
             title: article.title,
@@ -74,7 +72,7 @@ export default async function ArticlePage({
 }) {
     const { slug } = await params
 
-    const article = await getArticleBySlug(slug, true)
+    const article = await findBySlug(slug, true)
 
     const lang = article.lang
 

@@ -72,19 +72,6 @@ export async function createArticle(
     }
 }
 
-export async function getArticleBySlug(
-    slug: string,
-    published: boolean,
-): Promise<Article> {
-    try {
-        const article = await findBySlug(slug, published)
-
-        return article
-    } catch (error) {
-        throw new Error('An unknown error occurred while fetching the article')
-    }
-}
-
 export async function getArticles(
     offset: number,
     limit: number,
