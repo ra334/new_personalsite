@@ -139,14 +139,20 @@ export async function findManyPaginated(
     lang?: string,
     isPublished?: boolean,
 ): Promise<Article[]> {
-    const query = db.select().from(articles).limit(limit).offset(offset)
+    const conditions = []
 
     if (lang) {
-        query.where(eq(articles.lang, lang))
+        conditions.push(eq(articles.lang, lang))
     }
 
-    if (isPublished) {
-        query.where(eq(articles.isPublished, isPublished))
+    if (typeof isPublished === 'boolean') {
+        conditions.push(eq(articles.isPublished, isPublished))
+    }
+
+    const query = db.select().from(articles).limit(limit).offset(offset)
+
+    if (conditions.length > 0) {
+        query.where(and(...conditions))
     }
 
     const articlesList = await query
