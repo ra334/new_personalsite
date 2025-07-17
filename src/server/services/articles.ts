@@ -1,12 +1,5 @@
 import { moveAllTempMediaToPermanent } from './medias'
-import {
-    type Article,
-    createOne,
-    findManyPaginated,
-    findManySlugs,
-    countPublished,
-    countDrafts,
-} from '@/db/models/articles'
+import { type Article, createOne, findManySlugs } from '@/db/models/articles'
 import { moveGeneratedFiles } from '@src/utils/fileOps'
 import { generateOgImage } from '@src/utils/generateOgImage'
 import type { JSONContent } from '@tiptap/core'
@@ -77,24 +70,6 @@ export async function getAllArticlesSlugs(): Promise<string[]> {
     } catch (error) {
         console.error('Error fetching article slugs:', error)
         return []
-    }
-}
-
-export async function getCountPublishedArticles(lang: string): Promise<number> {
-    try {
-        return await countPublished(lang)
-    } catch (error) {
-        console.error('Error counting published articles:', error)
-        return 0
-    }
-}
-
-export async function getCountDraftArticles(): Promise<number> {
-    try {
-        return await countDrafts()
-    } catch (error) {
-        console.error('Error counting draft articles:', error)
-        return 0
     }
 }
 
