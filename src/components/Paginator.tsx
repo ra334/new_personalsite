@@ -11,12 +11,14 @@ interface PaginationProps {
     currentPage: number
     totalPages: number
     className?: string
+    isAdmin?: boolean
 }
 
 async function Pagination({
     currentPage,
     totalPages,
     className,
+    isAdmin,
 }: PaginationProps) {
     const t = await getTranslations('paginator')
 
@@ -26,10 +28,20 @@ async function Pagination({
         return `/blog/pages/${page}`
     }
 
+    function adminPageHref(page: number): string {
+        if (page <= 1) return '/admin/articles'
+        if (page > totalPages) return `/admin/articles/pages/${totalPages}`
+        return `/admin/articles/pages/${page}`
+    }
+
     return (
         <div className={`flex items-center justify-center gap-2 ${className}`}>
             <Link
-                href={pageHref(1)}
+                href={
+                    isAdmin
+                        ? adminPageHref(currentPage - 1)
+                        : pageHref(currentPage - 1)
+                }
                 aria-disabled={currentPage === 1}
                 className={
                     currentPage === 1 ? 'pointer-events-none opacity-50' : ''
@@ -38,7 +50,11 @@ async function Pagination({
                 <ChevronsLeft className="h-4 w-4" />
             </Link>
             <Link
-                href={pageHref(currentPage - 1)}
+                href={
+                    isAdmin
+                        ? adminPageHref(currentPage - 1)
+                        : pageHref(currentPage - 1)
+                }
                 aria-disabled={currentPage === 1}
                 className={
                     currentPage === 1 ? 'pointer-events-none opacity-50' : ''
@@ -50,7 +66,11 @@ async function Pagination({
                 {t('page')} {currentPage} {t('of')} {totalPages}
             </span>
             <Link
-                href={pageHref(currentPage + 1)}
+                href={
+                    isAdmin
+                        ? adminPageHref(currentPage + 1)
+                        : pageHref(currentPage + 1)
+                }
                 aria-disabled={currentPage === totalPages}
                 className={
                     currentPage === totalPages
@@ -61,7 +81,9 @@ async function Pagination({
                 <ChevronRight className="h-4 w-4" />
             </Link>
             <Link
-                href={pageHref(totalPages)}
+                href={
+                    isAdmin ? adminPageHref(totalPages) : pageHref(totalPages)
+                }
                 aria-disabled={currentPage === totalPages}
                 className={
                     currentPage === totalPages
