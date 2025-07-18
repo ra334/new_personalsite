@@ -39,7 +39,11 @@ export async function createArticle(
     const convertedContent: JSONContent = JSON.parse(data.content)
 
     try {
-        const content: JSONContent = changeImagesSrc(convertedContent, slug)
+        const content: JSONContent = changeImagesSrc(
+            convertedContent,
+            slug,
+            data.isPublished,
+        )
 
         const article = await createOne({
             ...data,
@@ -126,11 +130,17 @@ async function generateOg(text: string, slug: string): Promise<string> {
     return outputName
 }
 
-function changeImagesSrc(content: JSONContent, slug: string): JSONContent {
+function changeImagesSrc(
+    content: JSONContent,
+    slug: string,
+    published: boolean,
+): JSONContent {
     const updatedContent = content.content?.map((item: JSONContent) => {
         if (item.type === 'image' && item.attrs?.src) {
             const fileName = item.attrs.src.split('/').pop()
-            const newSrc = `/api/blog/${slug}/${fileName}`
+            const newSrc = published
+                ? `/api/blog/${slug}/${fileName}`
+                : `/api/blog/draft/${slug}/${fileName}`
             return {
                 ...item,
                 attrs: {
