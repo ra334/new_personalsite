@@ -17,8 +17,8 @@ function Footer() {
     return (
         <footer className="mt-auto p-6">
             <div className="container">
-                <div className="flex justify-between">
-                    {copyrightText}
+                <div className="flex justify-between items-center">
+                    <p className="text-sm">{copyrightText}</p>
                     <div className="flex gap-4">
                         <Link href="mailto:savcukmihajlo@gmail.com">
                             <EmailIcon />
