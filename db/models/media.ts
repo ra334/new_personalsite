@@ -24,6 +24,7 @@ export interface UpdateMediaData {
     mime?: string
     type?: MediaType
     isTemp?: boolean
+    articleId?: string
 }
 
 export async function createMedia(

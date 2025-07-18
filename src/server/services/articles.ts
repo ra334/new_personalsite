@@ -81,7 +81,11 @@ export async function createArticle(
             ogImage: ogImageUrl,
         })
 
-        await finalizeArticleAssets(slug, data.isPublished)
+        await finalizeArticleAssets({
+            slug,
+            articleId: article.id,
+            isPublished: data.isPublished,
+        })
 
         return article
     } catch (error) {
@@ -162,10 +166,11 @@ export async function updateArticle(
             updatedData.isPublished || previousArticle.isPublished,
         )
 
-        await finalizeArticleAssets(
-            slug,
-            updatedData.isPublished ?? previousArticle.isPublished,
-        )
+        await finalizeArticleAssets({
+            articleId: previousArticle.id,
+            slug: updatedData.slug || previousArticle.slug,
+            isPublished: updatedData.isPublished ?? previousArticle.isPublished,
+        })
 
         updatedData.content = JSON.stringify(updatedContent)
         dataChanged = true
@@ -269,12 +274,17 @@ async function generateOgImageUrl(
     return `${siteURL}/${lang}/blog/${slug}/${generatedOgImage}`
 }
 
-async function finalizeArticleAssets(
-    slug: string,
-    isPublished: boolean,
-): Promise<void> {
+async function finalizeArticleAssets({
+    slug,
+    articleId,
+    isPublished,
+}: {
+    slug: string
+    articleId: string
+    isPublished: boolean
+}): Promise<void> {
     const [mediaResult, cleanResult] = await Promise.all([
-        moveAllTempMediaToPermanent(slug, isPublished),
+        moveAllTempMediaToPermanent({ slug, id: articleId, isPublished }),
         moveGeneratedFiles(slug, isPublished),
     ])
 

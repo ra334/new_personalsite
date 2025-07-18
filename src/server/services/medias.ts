@@ -80,10 +80,15 @@ export async function getMedia(id: string): Promise<Media> {
     }
 }
 
-export async function moveAllTempMediaToPermanent(
-    slug: string,
-    isPublished: boolean,
-): Promise<boolean> {
+export async function moveAllTempMediaToPermanent({
+    id,
+    slug,
+    isPublished,
+}: {
+    id: string
+    slug: string
+    isPublished: boolean
+}): Promise<boolean> {
     let tempMedia: Media[] = []
 
     try {
@@ -107,6 +112,7 @@ export async function moveAllTempMediaToPermanent(
             await updateMedia(media.id, {
                 url: newUrl,
                 isTemp: false,
+                articleId: id,
             })
         } catch (error) {
             console.error('Failed to update media:', error)
