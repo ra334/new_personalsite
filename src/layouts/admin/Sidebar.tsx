@@ -8,16 +8,24 @@ import { useState } from 'react'
 
 function Sidebar({
     isWriteNewPage = false,
+    defaultPublishValue,
+    defaultDraftValue,
     preSaveHandler = () => {},
 }: {
+    defaultPublishValue?: boolean
+    defaultDraftValue?: boolean
     isWriteNewPage?: boolean
     preSaveHandler?: (publishValue: boolean, draftValue: boolean) => void
 }) {
     const t = useTranslations('admin')
     const router = usePathname()
     const pathWithoutLocale = router.replace(/\/[a-z]{2}\//, '/')
-    const [publishValue, setPublishValue] = useState<boolean>(false)
-    const [draftValue, setDraftValue] = useState<boolean>(false)
+    const [publishValue, setPublishValue] = useState<boolean>(
+        defaultPublishValue || false,
+    )
+    const [draftValue, setDraftValue] = useState<boolean>(
+        defaultDraftValue || false,
+    )
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         const { id, checked } = event.target

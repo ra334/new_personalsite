@@ -82,6 +82,7 @@ export async function getMedia(id: string): Promise<Media> {
 
 export async function moveAllTempMediaToPermanent(
     slug: string,
+    isPublished: boolean,
 ): Promise<boolean> {
     let tempMedia: Media[] = []
 
@@ -96,7 +97,9 @@ export async function moveAllTempMediaToPermanent(
         }
     }
 
-    const pathUrl = `/api/blog/${slug}/`
+    const pathUrl = isPublished
+        ? `/api/blog/${slug}/`
+        : `/api/blog/draft/${slug}/`
 
     for (const media of tempMedia) {
         const newUrl = pathUrl + media.url.split('/').pop()

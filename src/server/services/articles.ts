@@ -1,6 +1,19 @@
+import { getArticleBySlugAdmin } from '../actions/articles'
 import { moveAllTempMediaToPermanent } from './medias'
-import { type Article, createOne, findManySlugs } from '@/db/models/articles'
-import { moveGeneratedFiles } from '@src/utils/fileOps'
+import {
+    type Article,
+    createOne,
+    findManySlugs,
+    updateOne,
+} from '@/db/models/articles'
+import { deleteMediaByUrl, getTempMedia } from '@/db/models/media'
+import {
+    moveGeneratedFiles,
+    moveArticleToPublic,
+    moveArticleToDraft,
+    removeMedia,
+    cleanTempDirectory,
+} from '@src/utils/fileOps'
 import { generateOgImage } from '@src/utils/generateOgImage'
 import type { JSONContent } from '@tiptap/core'
 import path from 'path'
@@ -16,6 +29,21 @@ export interface CreateArticleInput {
     metaDescription: string
     ogTitle: string
     ogDescription: string
+}
+
+export interface UpdateArticleData {
+    lang?: string
+    title?: string
+    slug?: string
+    content?: string
+    excerpt?: string
+    isPublished?: boolean
+    metaTitle?: string
+    metaDescription?: string
+    ogTitle?: string
+    ogDescription?: string
+    ogImage?: string
+    canonicalURL?: string
 }
 
 export async function createArticle(
@@ -67,6 +95,160 @@ export async function createArticle(
     }
 }
 
+export async function updateArticle(
+    slug: string,
+    data: UpdateArticleData,
+): Promise<Article | undefined> {
+    const previousArticle = await getArticleBySlugAdmin(slug)
+
+    if (!previousArticle) {
+        console.error('Article not found for slug:', slug)
+        return undefined
+    }
+
+    const updatedData: UpdateArticleData = { ...data }
+
+    if (data.title && previousArticle.title !== data.title) {
+        updatedData.slug = slugify(data.title.toLowerCase())
+    }
+
+    let parsedContent: JSONContent | null = null
+    let dataChanged = false
+
+    if (
+        data.content &&
+        data.content !== JSON.stringify(previousArticle.content)
+    ) {
+        parsedContent = JSON.parse(data.content)
+
+        if (!parsedContent || typeof parsedContent !== 'object') return
+
+        const removedImages = new Set<string>(
+            getRemovedImages(parsedContent, previousArticle.content),
+        )
+
+        const tempMedia = await getTempMedia()
+
+        await Promise.all(
+            Array.from(removedImages).map(async (imageUrl) => {
+                const fileName = imageUrl.split('/').pop()
+
+                console.log(`Checking if media is temp: ${fileName}`)
+
+                const isTemp = tempMedia.some((media) => {
+                    const mediaFileName = media.url.split('/').pop()
+                    console.log(
+                        `Checking if media is temp: ${mediaFileName} === ${fileName}`,
+                    )
+                    return mediaFileName === fileName
+                })
+
+                if (isTemp) return
+
+                console.log(`Deleting media: ${imageUrl}`)
+
+                await deleteMediaByUrl(imageUrl)
+                await removeMedia(
+                    updatedData.slug || previousArticle.slug,
+                    data.isPublished ?? previousArticle.isPublished,
+                    fileName || '',
+                )
+            }),
+        )
+
+        const updatedContent = changeImagesSrc(
+            parsedContent,
+            updatedData.slug || previousArticle.slug,
+            updatedData.isPublished || previousArticle.isPublished,
+        )
+
+        await finalizeArticleAssets(
+            slug,
+            updatedData.isPublished ?? previousArticle.isPublished,
+        )
+
+        updatedData.content = JSON.stringify(updatedContent)
+        dataChanged = true
+    }
+
+    if (data.isPublished && !previousArticle.isPublished) {
+        await moveArticleToPublic(slug)
+
+        if (data.content && !dataChanged) {
+            const updatedContent = changeImagesSrc(
+                parsedContent || previousArticle.content,
+                updatedData.slug || previousArticle.slug,
+                updatedData.isPublished ?? previousArticle.isPublished,
+            )
+
+            updatedData.content = JSON.stringify(updatedContent)
+        }
+    }
+
+    if (!data.isPublished && previousArticle.isPublished) {
+        await moveArticleToDraft(slug)
+
+        if (data.content && !dataChanged) {
+            const updatedContent = changeImagesSrc(
+                JSON.parse(data.content) || previousArticle.content,
+                updatedData.slug || previousArticle.slug,
+                data.isPublished ?? previousArticle.isPublished,
+            )
+
+            updatedData.content = JSON.stringify(updatedContent)
+        }
+    }
+
+    if (
+        data.ogTitle &&
+        data.slug &&
+        previousArticle?.ogTitle !== data.ogTitle
+    ) {
+        const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL
+
+        if (!SITE_URL) {
+            throw new Error('SITE_URL is not defined in environment variables')
+        }
+
+        updatedData.ogImage = await generateOgImageUrl(
+            data.ogTitle,
+            previousArticle.lang,
+            data.slug,
+            SITE_URL,
+        )
+    }
+
+    return await updateOne(previousArticle.id, updatedData)
+}
+
+function extractImageUrls(content: JSONContent | undefined): string[] {
+    if (!content?.content) return []
+
+    const imageUrls: string[] = []
+
+    for (const node of content.content) {
+        if (node.type === 'image' && node.attrs?.src) {
+            imageUrls.push(node.attrs.src)
+        }
+
+        if (node.content) {
+            imageUrls.push(...extractImageUrls(node))
+        }
+    }
+
+    return imageUrls
+}
+
+export function getRemovedImages(
+    currentContent: JSONContent,
+    previousContent: JSONContent,
+): string[] {
+    const currentImages = new Set(extractImageUrls(currentContent))
+    const previousImages = extractImageUrls(previousContent)
+
+    return previousImages.filter((name) => !currentImages.has(name))
+}
+
 export async function getAllArticlesSlugs(): Promise<string[]> {
     try {
         const slugs = await findManySlugs()
@@ -92,7 +274,7 @@ async function finalizeArticleAssets(
     isPublished: boolean,
 ): Promise<void> {
     const [mediaResult, cleanResult] = await Promise.all([
-        moveAllTempMediaToPermanent(slug),
+        moveAllTempMediaToPermanent(slug, isPublished),
         moveGeneratedFiles(slug, isPublished),
     ])
 
@@ -141,6 +323,7 @@ function changeImagesSrc(
             const newSrc = published
                 ? `/api/blog/${slug}/${fileName}`
                 : `/api/blog/draft/${slug}/${fileName}`
+
             return {
                 ...item,
                 attrs: {
@@ -155,5 +338,21 @@ function changeImagesSrc(
     return {
         ...content,
         content: updatedContent,
+    }
+}
+
+export async function cleanTemporaryFiles(): Promise<boolean> {
+    try {
+        const res = await cleanTempDirectory()
+        const allTempMedia = await getTempMedia()
+        if (allTempMedia.length > 0) {
+            await Promise.all(
+                allTempMedia.map((media) => deleteMediaByUrl(media.url)),
+            )
+        }
+        return res
+    } catch (error) {
+        console.error('Error cleaning temporary files:', error)
+        return false
     }
 }

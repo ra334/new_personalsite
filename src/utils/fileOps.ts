@@ -54,3 +54,57 @@ export async function cleanTempDirectory(): Promise<boolean> {
 
     return true
 }
+
+export async function moveArticleToPublic(slug: string): Promise<string> {
+    const draftPath = path.join(process.cwd(), 'blog', 'drafts', slug)
+    const publicPath = path.join(process.cwd(), 'blog', 'published', slug)
+
+    try {
+        await fs.promises.rename(draftPath, publicPath)
+        return publicPath
+    } catch (error) {
+        console.error('Error moving article to public:', error)
+        throw new Error('Failed to move article to public')
+    }
+}
+
+export async function moveArticleToDraft(slug: string): Promise<string> {
+    const publicPath = path.join(process.cwd(), 'blog', 'published', slug)
+    const draftPath = path.join(process.cwd(), 'blog', 'drafts', slug)
+
+    try {
+        await fs.promises.rename(publicPath, draftPath)
+        return draftPath
+    } catch (error) {
+        console.error('Error moving article to draft:', error)
+        throw new Error('Failed to move article to draft')
+    }
+}
+
+export async function removeMedia(
+    slug: string,
+    isPublished: boolean,
+    name: string,
+): Promise<string> {
+    const mediaDir = path.join(
+        process.cwd(),
+        'blog',
+        isPublished ? 'published' : 'drafts',
+        slug,
+    )
+
+    if (!fs.existsSync(mediaDir)) {
+        console.error(`Media directory does not exist: ${mediaDir}`)
+        return ''
+    }
+
+    const filePath = path.join(mediaDir, name)
+    if (!fs.existsSync(filePath)) {
+        console.error(`File does not exist: ${filePath}`)
+        return ''
+    }
+
+    fs.unlinkSync(filePath)
+
+    return mediaDir
+}

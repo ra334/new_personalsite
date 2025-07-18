@@ -66,10 +66,6 @@ export async function getTempMedia(): Promise<Media[]> {
         where: eq(medias.isTemp, true),
     })
 
-    if (!mediaList.length) {
-        throw new Error('No temporary media found')
-    }
-
     return mediaList
 }
 
@@ -129,6 +125,16 @@ export async function countAllMedia(): Promise<number> {
     const result = await db.select({ value: count() }).from(medias)
 
     return result[0].value
+}
+
+export async function deleteMediaByUrl(url: string) {
+    const media = await db.delete(medias).where(eq(medias.url, url)).returning()
+
+    if (!media.length) {
+        throw new Error('Media not found or delete failed')
+    }
+
+    return media[0]
 }
 
 export async function deleteMedia(id: string) {

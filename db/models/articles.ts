@@ -109,11 +109,19 @@ export async function findById(id: string): Promise<Article> {
 
 export async function findBySlug(
     slug: string,
-    published: boolean,
+    published?: boolean,
 ): Promise<Article> {
-    const article = await db.query.articles.findFirst({
-        where: (row) => and(eq(row.slug, slug), eq(row.isPublished, published)),
-    })
+    const conditions = [eq(articles.slug, slug)]
+
+    const query = db.select().from(articles)
+
+    if (published) {
+        conditions.push(eq(articles.isPublished, published))
+    }
+
+    query.where(and(...conditions))
+
+    const [article] = await query
 
     if (!article) {
         throw new Error('Article not found')
