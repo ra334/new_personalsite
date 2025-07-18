@@ -54,19 +54,19 @@ function Home() {
             <Header />
             <main className="">
                 <div className="container flex justify-center">
-                    <div className="max-w-[700px]">
+                    <div className="max-w-[700px] px-2">
                         <section id="hero" className="text-center mt-15">
-                            <h1 className="h1_title">
+                            <h1 className="h1_title mb-8">
                                 {t('section_hero.title')}
                             </h1>
                             <p className="text">{t('section_hero.text')}</p>
                         </section>
                         <section id="whatido" className="text-center mt-15">
-                            <h2 className="h2_title">
+                            <h2 className="h2_title mb-6">
                                 {t('section_whatido.title')}
                             </h2>
                             <p className="text">{t('section_whatido.text')}</p>
-                            <h3 className="h3_title">
+                            <h3 className="h3_title my-6">
                                 {t('section_whatido.items_develop_title')}
                             </h3>
                             <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-xl mx-auto">
@@ -86,7 +86,7 @@ function Home() {
                                     ),
                                 )}
                             </ul>
-                            <h3 className="h3_title">
+                            <h3 className="h3_title my-6">
                                 {t('section_whatido.items_cybersec_title')}
                             </h3>
                             <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-xl mx-auto">
@@ -109,75 +109,9 @@ function Home() {
                                 )}
                             </ul>
                         </section>
-                        <section id="projects" className="mt-15">
-                            <h2 className="h2_title text-center">
-                                {t('section_projects.title')}
-                            </h2>
-                            <ul className="flex flex-col gap-3">
-                                {projectItems.map(
-                                    (project: Project, index: number) => (
-                                        <li
-                                            key={index}
-                                            className={
-                                                `border-1 flex ` +
-                                                cardAnimationStyle
-                                            }
-                                        >
-                                            <div className="flex items-center justify-center w-[220px]">
-                                                <h3 className="h3_title">
-                                                    {project.title}
-                                                </h3>
-                                            </div>
-                                            <div className="border-1 w-[1px]"></div>
-                                            <div className="p-4 flex justify-between w-full">
-                                                <div className="">
-                                                    <p className="pb-2 ">
-                                                        {project.text}
-                                                    </p>
-                                                    <div>
-                                                        {project.technologies.map(
-                                                            (tech, index) => (
-                                                                <span
-                                                                    key={index}
-                                                                    className="font-bold"
-                                                                >
-                                                                    {tech}
-                                                                    {index <
-                                                                        project
-                                                                            .technologies
-                                                                            .length -
-                                                                            1 &&
-                                                                        ' | '}
-                                                                </span>
-                                                            ),
-                                                        )}
-                                                    </div>
-                                                </div>
-                                                <div className="mt-auto">
-                                                    <Link
-                                                        href={
-                                                            projectLinks[index]
-                                                                .github
-                                                        }
-                                                        target="_blank"
-                                                    >
-                                                        <GithubIcon />
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    ),
-                                )}
-                            </ul>
-                            <Link
-                                href="/projects"
-                                className="link max-w-[250px] mt-5 m-auto"
-                            >
-                                {t('section_projects.link')}
-                            </Link>
-                        </section>
+
                         <section id="whyme" className="mt-15">
-                            <h2 className="h2_title text-center">
+                            <h2 className="h2_title text-center mb-6">
                                 {t('section_whyme.title')}
                             </h2>
                             <p className="text">{t('section_whyme.text')}</p>
@@ -187,9 +121,13 @@ function Home() {
                                         const Icon = whymeIcons[index]
                                         return (
                                             <li key={index} className="ml-4">
-                                                <div className="flex gap-2 items-center">
-                                                    <Icon />
-                                                    <h3 className="h3_title !leading-15">
+                                                <div className="flex gap-2 items-center pb-3">
+                                                    <Icon
+                                                        className="min-w-[20px] min-h-[20px]"
+                                                        width={20}
+                                                        height={20}
+                                                    />
+                                                    <h3 className="h3_title ">
                                                         {item.title}
                                                     </h3>
                                                 </div>
@@ -202,26 +140,28 @@ function Home() {
                         </section>
                         <section
                             id="contact"
-                            className="border p-6 pb-[60px] mt-15 text-center"
+                            className="border p-6 mt-15 flex items-center justify-center"
                         >
-                            <h2 className="h2_title text-center">
-                                {t('section_contact.title')}
-                            </h2>
-                            <p className="text mb-3">
-                                {t('section_contact.text')}
-                            </p>
-                            <p className="text ">
-                                {t('section_contact.sub_text')}
-                            </p>
+                            <div className="text-center">
+                                <h2 className="h2_title mb-6">
+                                    {t('section_contact.title')}
+                                </h2>
+                                <p className="text mb-3">
+                                    {t('section_contact.text')}
+                                </p>
+                                <p className="text ">
+                                    {t('section_contact.sub_text')}
+                                </p>
+                            </div>
                         </section>
                         <section id="lastposts" className="my-15">
                             {posts.length > 0 ? (
-                                <h2 className="h2_title text-center">
+                                <h2 className="h2_title text-center mb-6">
                                     Posts are available
                                 </h2>
                             ) : (
                                 <>
-                                    <h2 className="h2_title text-center">
+                                    <h2 className="h2_title text-center mb-6">
                                         {t('section_lastposts.title')}
                                     </h2>
                                     <p className="text-center">
