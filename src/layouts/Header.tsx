@@ -12,7 +12,7 @@ async function Header() {
     return (
         <header className="py-5 dark:text-white">
             <div className="container">
-                <div className="flex justify-around px-6">
+                <div className="flex flex-wraps justify-around items-center px-6">
                     <span className="w-full text-xl">
                         <Link href="/" className="font-medium">
                             {t('header.name')}
@@ -26,16 +26,6 @@ async function Header() {
                                         {t('header.nav.blog')}
                                     </Link>
                                 </li>
-                                {/* <li>
-                                    <Link href="/projects">
-                                        {t("header.nav.projects")}
-                                    </Link>
-                                </li> */}
-                                {/* <li>
-                                    <Link href="/about">
-                                        {t("header.nav.about")}
-                                    </Link>
-                                </li> */}
                             </ul>
                         </nav>
                         <div>
