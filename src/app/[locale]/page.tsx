@@ -1,4 +1,3 @@
-import GithubIcon from '@src/components/svg/footer/GithubIcon'
 import Footer from '@src/layouts/Footer'
 import Header from '@src/layouts/Header'
 import createGenerateMetadata from '@src/utils/metadata'
@@ -10,7 +9,6 @@ import {
     CalendarCheck,
 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import Link from 'next/link'
 
 interface Project {
     title: string
@@ -31,18 +29,6 @@ function Home() {
 
     const developItems = t.raw('section_whatido.items_develop_list')
     const cybersecItems = t.raw('section_whatido.items_cybersec_list')
-    const projectItems = t.raw('section_projects.items')
-    const projectLinks = [
-        {
-            github: 'https://github.com/AnyToolLab/Frontend',
-        },
-        {
-            github: 'https://github.com/listifyboardd/Frontend',
-        },
-        {
-            github: 'https://github.com/ra334/new_personalsite',
-        },
-    ]
     const whymyItems = t.raw('section_whyme.items')
     const whymeIcons = [Handshake, Target, ShieldCheck, LifeBuoy, CalendarCheck]
 
