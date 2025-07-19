@@ -24,7 +24,8 @@ function getGeneralType(mime: string): MediaType {
 }
 
 const schema = z.object({
-    file: z.instanceof(File),
+    buffer: z.instanceof(Buffer),
+    fileName: z.string().min(1),
     mime: z
         .string()
         .min(1)
@@ -33,19 +34,24 @@ const schema = z.object({
         }),
 })
 
-export async function uploadMedia(file: File, mime: string): Promise<string> {
-    const parsed = schema.safeParse({ file, mime })
+export async function uploadMedia(
+    buffer: Buffer,
+    fileName: string,
+    mime: string,
+): Promise<string> {
+    const parsed = schema.safeParse({ buffer, fileName, mime })
 
     if (!parsed.success) {
         throw new Error('Invalid input for file upload')
     }
 
     const uploadDir = path.join(process.cwd(), 'blog', 'temp')
-    const filePath = path.join(uploadDir, file.name)
-    const buffer = Buffer.from(await file.arrayBuffer())
+    const filePath = path.join(uploadDir, fileName)
 
+    fs.mkdirSync(uploadDir, { recursive: true })
     fs.writeFileSync(filePath, buffer)
-    const imageUrl = `/api/blog/uploads/temp/${file.name}`
+
+    const imageUrl = `/api/blog/uploads/temp/${fileName}`
     const type = getGeneralType(mime)
 
     try {

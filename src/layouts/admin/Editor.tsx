@@ -61,6 +61,7 @@ export async function uploadImage(
 
         const formData = new FormData()
         formData.append('file', file)
+        formData.append('fileName', file.name)
 
         const xhr = new XMLHttpRequest()
 

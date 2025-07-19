@@ -7,18 +7,22 @@ export async function POST(req: NextRequest) {
 
     if (session) {
         const formData = await req.formData()
-        const file = formData.get('file') as File | null
+        const blob = formData.get('file') as Blob | null
 
-        if (!file) {
+        if (!blob) {
             return new Response(JSON.stringify({ error: 'No file provided' }), {
                 status: 400,
             })
         }
 
-        const mimeType = file.type
+        const mimeType = blob.type
+
+        const arrayBuffer = await blob.arrayBuffer()
+        const buffer = Buffer.from(arrayBuffer)
+        const fileName = formData.get('fileName') as string
 
         try {
-            const imageUrl = await uploadMedia(file, mimeType)
+            const imageUrl = await uploadMedia(buffer, fileName, mimeType)
 
             return new Response(JSON.stringify({ url: imageUrl }), {
                 status: 200,
