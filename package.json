@@ -10,7 +10,8 @@
         "test": "vitest",
         "db:studio": "drizzle-kit studio",
         "db:push": "drizzle-kit push",
-        "db:generate": "drizzle-kit generate"
+        "db:generate": "drizzle-kit generate",
+        "db:migrate": "drizzle-kit migrate"
     },
     "dependencies": {
         "@auth/drizzle-adapter": "^1.9.1",
@@ -32,6 +33,7 @@
         "date-fns": "^4.1.0",
         "dompurify": "^3.2.6",
         "dotenv": "^16.5.0",
+        "drizzle-kit": "^0.31.4",
         "drizzle-orm": "^0.43.1",
         "lowlight": "^3.3.0",
         "lucide-react": "^0.511.0",
@@ -57,7 +59,6 @@
         "@types/react": "^19",
         "@types/react-dom": "^19",
         "@vitejs/plugin-react": "^4.4.1",
-        "drizzle-kit": "^0.31.4",
         "jsdom": "^26.1.0",
         "prettier": "3.5.3",
         "prettier-plugin-organize-attributes": "^1.0.0",
