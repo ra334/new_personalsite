@@ -2,13 +2,13 @@ import UpdateArticleClientWrapper from './UpdateArticleClientWrapper'
 import { getArticleBySlugAdmin } from '@src/server/actions/articles'
 
 interface UpdateArticleProps {
-    params: {
-        slug: string
-    }
+    slug: string
 }
 
-async function UpdateArticle({ params }: UpdateArticleProps) {
-    const { slug } = await params
+type Params = Promise<UpdateArticleProps>
+
+async function UpdateArticle(props: { params: Params }) {
+    const { slug } = await props.params
 
     try {
         const article = await getArticleBySlugAdmin(slug)

@@ -13,10 +13,12 @@ export async function generateStaticParams() {
     return slugs.map((slug) => ({ slug }))
 }
 
+type Params = Promise<{ slug: string }>
+
 export async function generateMetadata({
     params,
 }: {
-    params: { slug: string }
+    params: Params
 }): Promise<Metadata> {
     try {
         const { slug } = await params
@@ -65,11 +67,7 @@ export async function generateMetadata({
     }
 }
 
-export default async function ArticlePage({
-    params,
-}: {
-    params: { slug: string }
-}) {
+export default async function ArticlePage({ params }: { params: Params }) {
     const { slug } = await params
 
     const article = await findBySlug(slug, true)

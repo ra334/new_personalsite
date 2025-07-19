@@ -8,13 +8,13 @@ import { getAllArticlesAction } from '@src/server/actions/articles'
 import { adminCountAllArticlesAction } from '@src/server/actions/articles'
 
 interface ArticlesPageProps {
-    searchParams: {
-        lang?: string
-        publishedStatus?: ArticleFilter
-    }
+    lang?: string
+    publishedStatus?: ArticleFilter
 }
 
-async function ArticlesPage({ searchParams }: ArticlesPageProps) {
+type SearchParams = Promise<ArticlesPageProps>
+
+async function ArticlesPage({ searchParams }: { searchParams: SearchParams }) {
     const { lang, publishedStatus } = await searchParams
 
     const articlesPerPage = 5

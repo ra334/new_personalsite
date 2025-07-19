@@ -6,14 +6,10 @@ import Header from '@src/layouts/Header'
 import { countAllArticlesAction } from '@src/server/actions/articles'
 import { getTranslations } from 'next-intl/server'
 
-interface BlogPageProps {
-    params: {
-        locale: string
-    }
-}
+type Params = Promise<{ locale: string }>
 
-async function BlogPage({ params }: BlogPageProps) {
-    const { locale } = await params
+async function BlogPage(params: { params: Params }) {
+    const { locale } = await params.params
     const t = await getTranslations('blog')
 
     const articlesPerPage = 5

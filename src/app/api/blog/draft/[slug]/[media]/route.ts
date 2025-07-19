@@ -3,14 +3,12 @@ import fs from 'fs'
 import { NextRequest } from 'next/server'
 import path from 'path'
 
-interface Params {
-    params: {
-        slug: string
-        media: string
-    }
-}
+type Params = Promise<{
+    slug: string
+    media: string
+}>
 
-export async function GET(req: NextRequest, { params }: Params) {
+export async function GET(req: NextRequest, { params }: { params: Params }) {
     const session = await auth()
 
     if (session) {
