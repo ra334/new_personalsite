@@ -10,6 +10,8 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+RUN apt-get update && apt-get install -y libexpat1 && rm -rf /var/lib/apt/lists/*
+
 RUN npm run build
 
 FROM node:slim AS runner
