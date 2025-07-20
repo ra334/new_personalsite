@@ -10,7 +10,8 @@ export default async function middleware(req: NextRequest) {
         process.env.NEXTAUTH_URL = process.env.NEXTAUTH_URL_INTERNAL
     }
 
-    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+    const token = await getToken({ req, secret: process.env.SECRET })
+    console.log('Token:', token)
     const isLoggedIn = !!token
     const locales = ['en', 'uk']
     const paths = locales.flatMap((locale) => '/' + locale + '/admin')
