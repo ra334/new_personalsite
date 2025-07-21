@@ -46,9 +46,13 @@ export async function uploadMedia(
     }
 
     const uploadDir = path.join(process.cwd(), 'blog', 'temp')
+
+    if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true })
+    }
+
     const filePath = path.join(uploadDir, fileName)
 
-    fs.mkdirSync(uploadDir, { recursive: true })
     fs.writeFileSync(filePath, buffer)
 
     const imageUrl = `/api/blog/uploads/temp/${fileName}`
