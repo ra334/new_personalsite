@@ -1,17 +1,18 @@
 import { findBySlug } from '@/db/models/articles'
+import ArticleContent from '@src/components/ArticleContent'
+import '@src/components/tiptap/tiptap-node/code-block-node/code-block-node.scss'
+import '@src/components/tiptap/tiptap-node/list-node/list-node.scss'
+import '@src/components/tiptap/tiptap-node/paragraph-node/paragraph-node.scss'
 import Footer from '@src/layouts/Footer'
 import Header from '@src/layouts/Header'
-import Editor from '@src/layouts/admin/Editor'
 import { getAllArticlesSlugs } from '@src/server/services/articles'
+import '@src/styles/_keyframe-animations.scss'
+import '@src/styles/_variables.scss'
+import '@src/styles/lowlight.scss'
+import '@src/styles/style.scss'
 import { format } from 'date-fns'
 import { uk, enUS } from 'date-fns/locale'
 import type { Metadata } from 'next'
-
-export async function generateStaticParams() {
-    const slugs = await getAllArticlesSlugs()
-
-    return slugs.map((slug) => ({ slug }))
-}
 
 type Params = Promise<{ slug: string }>
 
@@ -123,11 +124,7 @@ export default async function ArticlePage({ params }: { params: Params }) {
                 }}
             />
             <div className="container px-6">
-                <Editor
-                    content={contentWithDate}
-                    isEditable={false}
-                    immediatelyRender={false}
-                />
+                <ArticleContent content={contentWithDate} />
             </div>
             <Footer />
         </>
