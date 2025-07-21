@@ -23,7 +23,7 @@ services:
         depends_on:
             - postgres_db
         volumes:
-            - uploads_data:/public/uploads
+            - ./blog:/app/blog
         networks:
             - personal_site_network
 
