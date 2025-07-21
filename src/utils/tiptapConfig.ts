@@ -80,15 +80,15 @@ export async function uploadImage(
 }
 
 export const tiptapExtensions = [
-    StarterKit,
+    StarterKit.configure({
+        codeBlock: false,
+    }),
     TaskList,
     TaskItem,
     CodeBlockLowlight.configure({ lowlight }),
     TextAlign.configure({ types: ['heading', 'paragraph'] }),
-    Underline,
     Superscript,
     Subscript,
-    Link,
     CustomImage,
     ImageUploadNode.configure({
         accept: 'image/*',

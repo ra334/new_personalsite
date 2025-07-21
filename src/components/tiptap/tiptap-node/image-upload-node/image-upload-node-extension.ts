@@ -47,7 +47,7 @@ declare module '@tiptap/react' {
 }
 
 /**
- * A TipTap node extension that creates an image upload component.
+ * A Tiptap node extension that creates an image upload component.
  * @see registry/tiptap-node/image-upload-node/image-upload-node
  */
 export const ImageUploadNode = Node.create<ImageUploadNodeOptions>({
@@ -56,8 +56,6 @@ export const ImageUploadNode = Node.create<ImageUploadNodeOptions>({
     group: 'block',
 
     draggable: true,
-
-    selectable: true,
 
     atom: true,
 

@@ -3,14 +3,15 @@
 import '@src/components/tiptap/tiptap-ui-primitive/button/button-colors.scss'
 import '@src/components/tiptap/tiptap-ui-primitive/button/button-group.scss'
 import '@src/components/tiptap/tiptap-ui-primitive/button/button.scss'
+// --- Tiptap UI Primitive ---
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
 } from '@src/components/tiptap/tiptap-ui-primitive/tooltip'
+// --- Lib ---
+import { cn, parseShortcutKeys } from '@src/lib/tiptap-utils'
 import * as React from 'react'
-
-type PlatformShortcuts = Record<string, string>
 
 export interface ButtonProps
     extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -18,32 +19,6 @@ export interface ButtonProps
     showTooltip?: boolean
     tooltip?: React.ReactNode
     shortcutKeys?: string
-}
-
-export const MAC_SYMBOLS: PlatformShortcuts = {
-    ctrl: '⌘',
-    alt: '⌥',
-    shift: '⇧',
-} as const
-
-export const formatShortcutKey = (key: string, isMac: boolean) => {
-    if (isMac) {
-        const lowerKey = key.toLowerCase()
-        return MAC_SYMBOLS[lowerKey] || key.toUpperCase()
-    }
-    return key.charAt(0).toUpperCase() + key.slice(1)
-}
-
-export const parseShortcutKeys = (
-    shortcutKeys: string | undefined,
-    isMac: boolean,
-) => {
-    if (!shortcutKeys) return []
-
-    return shortcutKeys
-        .split('-')
-        .map((key) => key.trim())
-        .map((key) => formatShortcutKey(key, isMac))
 }
 
 export const ShortcutDisplay: React.FC<{ shortcuts: string[] }> = ({
@@ -66,7 +41,7 @@ export const ShortcutDisplay: React.FC<{ shortcuts: string[] }> = ({
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     (
         {
-            className = '',
+            className,
             children,
             tooltip,
             showTooltip = true,
@@ -76,22 +51,15 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         },
         ref,
     ) => {
-        const isMac = React.useMemo(
-            () =>
-                typeof navigator !== 'undefined' &&
-                navigator.platform.toLowerCase().includes('mac'),
-            [],
-        )
-
         const shortcuts = React.useMemo(
-            () => parseShortcutKeys(shortcutKeys, isMac),
-            [shortcutKeys, isMac],
+            () => parseShortcutKeys({ shortcutKeys }),
+            [shortcutKeys],
         )
 
         if (!tooltip || !showTooltip) {
             return (
                 <button
-                    className={`tiptap-button ${className}`.trim()}
+                    className={cn('tiptap-button', className)}
                     ref={ref}
                     aria-label={ariaLabel}
                     {...props}
@@ -104,7 +72,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         return (
             <Tooltip delay={200}>
                 <TooltipTrigger
-                    className={`tiptap-button ${className}`.trim()}
+                    className={cn('tiptap-button', className)}
                     ref={ref}
                     aria-label={ariaLabel}
                     {...props}
@@ -121,5 +89,25 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 )
 
 Button.displayName = 'Button'
+
+export const ButtonGroup = React.forwardRef<
+    HTMLDivElement,
+    React.ComponentProps<'div'> & {
+        orientation?: 'horizontal' | 'vertical'
+    }
+>(({ className, children, orientation = 'vertical', ...props }, ref) => {
+    return (
+        <div
+            ref={ref}
+            className={cn('tiptap-button-group', className)}
+            data-orientation={orientation}
+            role="group"
+            {...props}
+        >
+            {children}
+        </div>
+    )
+})
+ButtonGroup.displayName = 'ButtonGroup'
 
 export default Button

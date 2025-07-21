@@ -1,6 +1,4 @@
-import IconWithTextView from './PublishedView'
 import { Node, mergeAttributes } from '@tiptap/core'
-import { ReactNodeViewRenderer } from '@tiptap/react'
 
 export const PublishedNode = Node.create({
     name: 'publishedNode',
@@ -11,6 +9,8 @@ export const PublishedNode = Node.create({
         return {
             text: {
                 default: '',
+                parseHTML: (element) => element.getAttribute('text') || '',
+                renderHTML: (attributes) => ({ text: attributes.text }),
             },
         }
     },
@@ -24,10 +24,29 @@ export const PublishedNode = Node.create({
     },
 
     renderHTML({ HTMLAttributes }) {
-        return ['icon-with-text', mergeAttributes(HTMLAttributes)]
-    },
-
-    addNodeView() {
-        return ReactNodeViewRenderer(IconWithTextView)
+        return [
+            'icon-with-text',
+            mergeAttributes(HTMLAttributes, {
+                class: 'flex items-center gap-2 pb-8',
+            }),
+            [
+                'svg',
+                {
+                    xmlns: 'http://www.w3.org/2000/svg',
+                    width: '18',
+                    height: '18',
+                    fill: 'none',
+                    stroke: 'currentColor',
+                    strokeWidth: '2',
+                    strokeLinecap: 'round',
+                    strokeLinejoin: 'round',
+                    class: 'lucide lucide-clock',
+                    viewBox: '0 0 24 24',
+                },
+                ['circle', { cx: '12', cy: '12', r: '10' }],
+                ['polyline', { points: '12 6 12 12 16 14' }],
+            ],
+            ['span', {}, HTMLAttributes.text ?? ''],
+        ]
     },
 })

@@ -1,150 +1,52 @@
 'use client'
 
+import { Badge } from '@src/components/tiptap/tiptap-ui-primitive/badge'
 // --- UI Primitives ---
-// --- Lib ---
-import { HeadingFiveIcon } from '@src/components/tiptap/tiptap-icons/heading-five-icon'
-import { HeadingFourIcon } from '@src/components/tiptap/tiptap-icons/heading-four-icon'
-// --- Icons ---
-import { HeadingOneIcon } from '@src/components/tiptap/tiptap-icons/heading-one-icon'
-import { HeadingSixIcon } from '@src/components/tiptap/tiptap-icons/heading-six-icon'
-import { HeadingThreeIcon } from '@src/components/tiptap/tiptap-icons/heading-three-icon'
-import { HeadingTwoIcon } from '@src/components/tiptap/tiptap-icons/heading-two-icon'
 import type { ButtonProps } from '@src/components/tiptap/tiptap-ui-primitive/button'
 import { Button } from '@src/components/tiptap/tiptap-ui-primitive/button'
-// --- Hooks ---
+// --- Tiptap UI ---
+import type {
+    Level,
+    UseHeadingConfig,
+} from '@src/components/tiptap/tiptap-ui/heading-button'
+import {
+    HEADING_SHORTCUT_KEYS,
+    useHeading,
+} from '@src/components/tiptap/tiptap-ui/heading-button'
 import { useTiptapEditor } from '@src/hooks/use-tiptap-editor'
-import { isNodeInSchema } from '@src/lib/tiptap-utils'
-import { isNodeSelection, type Editor } from '@tiptap/react'
+// --- Lib ---
+import { parseShortcutKeys } from '@src/lib/tiptap-utils'
 import * as React from 'react'
 
-export type Level = 1 | 2 | 3 | 4 | 5 | 6
-
-export interface HeadingButtonProps extends Omit<ButtonProps, 'type'> {
-    /**
-     * The TipTap editor instance.
-     */
-    editor?: Editor | null
-    /**
-     * The heading level.
-     */
-    level: Level
+export interface HeadingButtonProps
+    extends Omit<ButtonProps, 'type'>,
+        UseHeadingConfig {
     /**
      * Optional text to display alongside the icon.
      */
     text?: string
     /**
-     * Whether the button should hide when the heading is not available.
+     * Optional show shortcut keys in the button.
      * @default false
      */
-    hideWhenUnavailable?: boolean
+    showShortcut?: boolean
 }
 
-export const headingIcons = {
-    1: HeadingOneIcon,
-    2: HeadingTwoIcon,
-    3: HeadingThreeIcon,
-    4: HeadingFourIcon,
-    5: HeadingFiveIcon,
-    6: HeadingSixIcon,
-}
-
-export const headingShortcutKeys: Partial<Record<Level, string>> = {
-    1: 'Ctrl-Alt-1',
-    2: 'Ctrl-Alt-2',
-    3: 'Ctrl-Alt-3',
-    4: 'Ctrl-Alt-4',
-    5: 'Ctrl-Alt-5',
-    6: 'Ctrl-Alt-6',
-}
-
-export function canToggleHeading(editor: Editor | null, level: Level): boolean {
-    if (!editor) return false
-
-    try {
-        return editor.can().toggleNode('heading', 'paragraph', { level })
-    } catch {
-        return false
-    }
-}
-
-export function isHeadingActive(editor: Editor | null, level: Level): boolean {
-    if (!editor) return false
-    return editor.isActive('heading', { level })
-}
-
-export function toggleHeading(editor: Editor | null, level: Level): void {
-    if (!editor) return
-
-    if (editor.isActive('heading', { level })) {
-        editor.chain().focus().setNode('paragraph').run()
-    } else {
-        editor
-            .chain()
-            .focus()
-            .toggleNode('heading', 'paragraph', { level })
-            .run()
-    }
-}
-
-export function isHeadingButtonDisabled(
-    editor: Editor | null,
-    level: Level,
-    userDisabled: boolean = false,
-): boolean {
-    if (!editor) return true
-    if (userDisabled) return true
-    if (!canToggleHeading(editor, level)) return true
-    return false
-}
-
-export function shouldShowHeadingButton(params: {
-    editor: Editor | null
+export function HeadingShortcutBadge({
+    level,
+    shortcutKeys = HEADING_SHORTCUT_KEYS[level],
+}: {
     level: Level
-    hideWhenUnavailable: boolean
-    headingInSchema: boolean
-}): boolean {
-    const { editor, hideWhenUnavailable, headingInSchema } = params
-
-    if (!headingInSchema || !editor) {
-        return false
-    }
-
-    if (hideWhenUnavailable) {
-        if (isNodeSelection(editor.state.selection)) {
-            return false
-        }
-    }
-
-    return true
+    shortcutKeys?: string
+}) {
+    return <Badge>{parseShortcutKeys({ shortcutKeys })}</Badge>
 }
 
-export function getFormattedHeadingName(level: Level): string {
-    return `Heading ${level}`
-}
-
-export function useHeadingState(
-    editor: Editor | null,
-    level: Level,
-    disabled: boolean = false,
-) {
-    const headingInSchema = isNodeInSchema('heading', editor)
-    const isDisabled = isHeadingButtonDisabled(editor, level, disabled)
-    const isActive = isHeadingActive(editor, level)
-
-    const Icon = headingIcons[level]
-    const shortcutKey = headingShortcutKeys[level]
-    const formattedName = getFormattedHeadingName(level)
-
-    return {
-        headingInSchema,
-        isDisabled,
-        isActive,
-        Icon,
-        shortcutKey,
-        formattedName,
-    }
-}
-
+/**
+ * Button component for toggling heading in a Tiptap editor.
+ *
+ * For custom button implementations, use the `useHeading` hook instead.
+ */
 export const HeadingButton = React.forwardRef<
     HTMLButtonElement,
     HeadingButtonProps
@@ -155,72 +57,70 @@ export const HeadingButton = React.forwardRef<
             level,
             text,
             hideWhenUnavailable = false,
-            className = '',
-            disabled,
+            onToggled,
+            showShortcut = false,
             onClick,
             children,
             ...buttonProps
         },
         ref,
     ) => {
-        const editor = useTiptapEditor(providedEditor)
-
+        const { editor } = useTiptapEditor(providedEditor)
         const {
-            headingInSchema,
-            isDisabled,
+            isVisible,
+            canToggle,
             isActive,
+            handleToggle,
+            label,
             Icon,
-            shortcutKey,
-            formattedName,
-        } = useHeadingState(editor, level, disabled)
+            shortcutKeys,
+        } = useHeading({
+            editor,
+            level,
+            hideWhenUnavailable,
+            onToggled,
+        })
 
         const handleClick = React.useCallback(
-            (e: React.MouseEvent<HTMLButtonElement>) => {
-                onClick?.(e)
-
-                if (!e.defaultPrevented && !isDisabled && editor) {
-                    toggleHeading(editor, level)
-                }
+            (event: React.MouseEvent<HTMLButtonElement>) => {
+                onClick?.(event)
+                if (event.defaultPrevented) return
+                handleToggle()
             },
-            [onClick, isDisabled, editor, level],
+            [handleToggle, onClick],
         )
 
-        const show = React.useMemo(() => {
-            return shouldShowHeadingButton({
-                editor,
-                level,
-                hideWhenUnavailable,
-                headingInSchema,
-            })
-        }, [editor, level, hideWhenUnavailable, headingInSchema])
-
-        if (!show || !editor || !editor.isEditable) {
+        if (!isVisible) {
             return null
         }
 
         return (
             <Button
                 type="button"
-                className={className.trim()}
-                disabled={isDisabled}
                 data-style="ghost"
                 data-active-state={isActive ? 'on' : 'off'}
-                data-disabled={isDisabled}
                 role="button"
                 tabIndex={-1}
-                aria-label={formattedName}
+                disabled={!canToggle}
+                data-disabled={!canToggle}
+                aria-label={label}
                 aria-pressed={isActive}
-                tooltip={formattedName}
-                shortcutKeys={shortcutKey}
+                tooltip={label}
                 onClick={handleClick}
                 {...buttonProps}
                 ref={ref}
             >
-                {children || (
+                {children ?? (
                     <>
                         <Icon className="tiptap-button-icon" />
                         {text && (
                             <span className="tiptap-button-text">{text}</span>
+                        )}
+                        {showShortcut && (
+                            <HeadingShortcutBadge
+                                level={level}
+                                shortcutKeys={shortcutKeys}
+                            />
                         )}
                     </>
                 )}
@@ -230,5 +130,3 @@ export const HeadingButton = React.forwardRef<
 )
 
 HeadingButton.displayName = 'HeadingButton'
-
-export default HeadingButton
