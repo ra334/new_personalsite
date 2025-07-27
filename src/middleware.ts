@@ -10,7 +10,13 @@ export default async function middleware(req: NextRequest) {
         process.env.NEXTAUTH_URL = process.env.NEXTAUTH_URL_INTERNAL
     }
 
-    const token = await getToken({ req, secureCookie: true, secret: process.env.NEXTAUTH_SECRET })
+    const secureCookie = process.env.NODE_ENV === 'production'
+
+    const token = await getToken({
+        req,
+        secureCookie,
+        secret: process.env.NEXTAUTH_SECRET,
+    })
 
     const isLoggedIn = !!token
     const locales = ['en', 'uk']
