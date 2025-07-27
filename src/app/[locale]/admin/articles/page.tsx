@@ -4,8 +4,10 @@ import Pagination from '@src/components/Paginator'
 import ArticlesFilterPanel from '@src/components/admin/ArticlesFilterPanel'
 import Header from '@src/layouts/Header'
 import Sidebar from '@src/layouts/admin/Sidebar'
-import { getAllArticlesAction } from '@src/server/actions/articles'
-import { adminCountAllArticlesAction } from '@src/server/actions/articles'
+import {
+    getAllArticlesAction,
+    adminCountAllArticlesAction,
+} from '@src/server/actions/articles'
 
 interface ArticlesPageProps {
     lang?: string
