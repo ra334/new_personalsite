@@ -43,11 +43,7 @@ async function ArticlesPage({ searchParams }: { searchParams: SearchParams }) {
                         lang={lang}
                         publishedSatatus={publishedStatus}
                     />
-                    <ArticlesList
-                        articles={articles}
-                        isPublishTags={true}
-                        isAdmin={true}
-                    />
+                    <ArticlesList articles={articles} isAdmin={true} />
                     <Pagination
                         className="mt-auto pb-2"
                         isAdmin={true}
