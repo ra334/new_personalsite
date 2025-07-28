@@ -6,13 +6,15 @@ import {
     findManySlugs,
     updateOne,
 } from '@/db/models/articles'
-import { deleteMediaByUrl, getTempMedia } from '@/db/models/media'
+import { deleteMediaByUrl, getTempMedia, deleteMediasByArticleId } from '@/db/models/media'
+import { deleteOne, findBySlug } from '@/db/models/articles'
 import {
     moveGeneratedFiles,
     moveArticleToPublic,
     moveArticleToDraft,
     removeMedia,
     cleanTempDirectory,
+    deleteArticleDir
 } from '@src/utils/fileOps'
 import { generateOgImage } from '@src/utils/generateOgImage'
 import type { JSONContent } from '@tiptap/core'
@@ -225,6 +227,26 @@ export async function updateArticle(
 
     return await updateOne(previousArticle.id, updatedData)
 }
+
+export async function deleteArticle(slug: string): Promise<Article | null> {
+    const article = await findBySlug(slug)
+
+    if (!article) {
+        console.error('Article not found for slug:', slug)
+        return null
+    }
+
+    try {
+        await deleteMediasByArticleId(article.id)
+        await deleteArticleDir(slug, article.isPublished)
+        await deleteOne(article.id)
+
+        return article
+    } catch (error) {
+        console.error('Error deleting article directory:', error)
+        return null
+    }
+} 
 
 function extractImageUrls(content: JSONContent | undefined): string[] {
     if (!content?.content) return []

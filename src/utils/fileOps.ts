@@ -108,3 +108,14 @@ export async function removeMedia(
 
     return mediaDir
 }
+
+export async function deleteArticleDir(slug: string, isPublished: boolean): Promise<boolean> {
+    const articleDir = path.join(process.cwd(), 'blog', isPublished ? 'published' : 'drafts', slug)
+
+    try {
+        await fs.promises.rm(articleDir, { recursive: true })
+        return true
+    } catch (error) {
+        return false
+    }
+}

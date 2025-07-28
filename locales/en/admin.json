@@ -23,5 +23,14 @@
             "title": "Languages",
             "missingTranslations": "Missing Translations"
         }
+    },
+
+    "articles": {
+        "delete_modal": {
+            "title": "Delete Article",
+            "message": "Are you sure you want to delete: ",
+            "confirm": "Delete",
+            "cancel": "Cancel"
+        }
     }
 }

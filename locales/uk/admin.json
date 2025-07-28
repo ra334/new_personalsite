@@ -23,5 +23,14 @@
             "title": "Мови",
             "missingTranslations": "Відсутні переклади"
         }
+    },
+
+    "articles": {
+        "delete_modal": {
+            "title": "Видалити статтю",
+            "message": "Ви впевнені, що хочете видалити: ",
+            "confirm": "Видалити",
+            "cancel": "Скасувати"
+        }
     }
 }

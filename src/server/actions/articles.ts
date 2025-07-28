@@ -6,12 +6,13 @@ import {
     type Article,
     type ArticleFilter,
 } from '@/db/models/articles'
-import { findManyPaginated, findBySlug } from '@/db/models/articles'
+import { findManyPaginated, findBySlug, deleteOne } from '@/db/models/articles'
 import { auth } from '@src/auth'
 import {
     createArticle,
     updateArticle,
     cleanTemporaryFiles,
+    deleteArticle
 } from '@src/server/services/articles'
 import z from 'zod'
 
@@ -143,4 +144,22 @@ export async function cleanTempDirectoryAction(): Promise<boolean> {
     }
 
     return await cleanTemporaryFiles()
+}
+
+export async function deleteArticleAction(slug: string): Promise<string> {
+    const session = await auth()
+
+    if (!session || !session.user) {
+        console.error('User is not authenticated')
+        return 'User is not authenticated'
+    }
+
+    const result = await deleteArticle(slug)
+
+    if (!result) {
+        console.error('Failed to remove article')
+        return 'Failed to remove article'
+    }
+
+    return result.slug
 }

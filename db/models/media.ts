@@ -128,6 +128,15 @@ export async function countAllMedia(): Promise<number> {
     return result[0].value
 }
 
+export async function deleteMediasByArticleId(articleId: string) {
+    const media = await db
+        .delete(medias)
+        .where(eq(medias.articleId, articleId))
+        .returning()
+
+    return media[0]
+}
+
 export async function deleteMediaByUrl(url: string) {
     const media = await db.delete(medias).where(eq(medias.url, url)).returning()
 
