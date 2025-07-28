@@ -48,7 +48,7 @@ export async function uploadImage(
         formData.append('fileName', file.name)
 
         const xhr = new XMLHttpRequest()
-        xhr.open('POST', '/api/blog/uploads/temp', true)
+        xhr.open('POST', '/api/medias/temp/upload', true)
 
         xhr.upload.onprogress = (event) => {
             if (event.lengthComputable && onProgress) {

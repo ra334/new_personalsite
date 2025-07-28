@@ -27,17 +27,6 @@ services:
         networks:
             - personal_site_network
 
-    nginx:
-        image: nginx:latest
-        container_name: nginx_server
-        restart: unless-stopped
-        ports:
-            - '8081:80'
-        volumes:
-            - ./nginx.conf:/etc/nginx/conf.d/default.conf
-            - ./blog/published:/usr/share/nginx/uploads/blog/published:ro
-        networks:
-            - personal_site_network
 networks:
     personal_site_network:
         driver: bridge

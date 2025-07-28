@@ -55,7 +55,7 @@ export async function uploadMedia(
 
     fs.writeFileSync(filePath, buffer)
 
-    const imageUrl = `/api/blog/uploads/temp/${fileName}`
+    const imageUrl = `/api/medias/temp/${fileName}`
     const type = getGeneralType(mime)
 
     try {
@@ -113,8 +113,8 @@ export async function moveAllTempMediaToPermanent({
     }
 
     const pathUrl = isPublished
-        ? `/api/blog/${slug}/`
-        : `/api/blog/draft/${slug}/`
+        ? `/api/medias/public/${slug}/`
+        : `/api/medias/drafts/${slug}/`
 
     for (const media of tempMedia) {
         const newUrl = pathUrl + media.url.split('/').pop()

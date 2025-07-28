@@ -6,15 +6,19 @@ import {
     findManySlugs,
     updateOne,
 } from '@/db/models/articles'
-import { deleteMediaByUrl, getTempMedia, deleteMediasByArticleId } from '@/db/models/media'
 import { deleteOne, findBySlug } from '@/db/models/articles'
+import {
+    deleteMediaByUrl,
+    getTempMedia,
+    deleteMediasByArticleId,
+} from '@/db/models/media'
 import {
     moveGeneratedFiles,
     moveArticleToPublic,
     moveArticleToDraft,
     removeMedia,
     cleanTempDirectory,
-    deleteArticleDir
+    deleteArticleDir,
 } from '@src/utils/fileOps'
 import { generateOgImage } from '@src/utils/generateOgImage'
 import type { JSONContent } from '@tiptap/core'
@@ -59,12 +63,7 @@ export async function createArticle(
         throw new Error('SITE_URL is not defined in environment variables')
     }
 
-    const ogImageUrl = await generateOgImageUrl(
-        data.title,
-        data.lang,
-        slug,
-        SITE_URL,
-    )
+    const ogImageUrl = await generateOgImageUrl(data.title, slug, SITE_URL)
 
     const convertedContent: JSONContent = JSON.parse(data.content)
 
@@ -219,7 +218,6 @@ export async function updateArticle(
 
         updatedData.ogImage = await generateOgImageUrl(
             data.ogTitle,
-            previousArticle.lang,
             data.slug,
             SITE_URL,
         )
@@ -246,7 +244,7 @@ export async function deleteArticle(slug: string): Promise<Article | null> {
         console.error('Error deleting article directory:', error)
         return null
     }
-} 
+}
 
 function extractImageUrls(content: JSONContent | undefined): string[] {
     if (!content?.content) return []
@@ -288,12 +286,11 @@ export async function getAllArticlesSlugs(): Promise<string[]> {
 
 async function generateOgImageUrl(
     title: string,
-    lang: string,
     slug: string,
     siteURL: string,
 ): Promise<string> {
     const generatedOgImage = await generateOg(title, slug)
-    return `${siteURL}/${lang}/blog/${slug}/${generatedOgImage}`
+    return `${siteURL}/api/medias/public/${slug}/${generatedOgImage}`
 }
 
 async function finalizeArticleAssets({
@@ -353,8 +350,8 @@ function changeImagesSrc(
         if (item.type === 'image' && item.attrs?.src) {
             const fileName = item.attrs.src.split('/').pop()
             const newSrc = published
-                ? `/api/blog/${slug}/${fileName}`
-                : `/api/blog/draft/${slug}/${fileName}`
+                ? `/api/medias/public/${slug}/${fileName}`
+                : `/api/medias/drafts/${slug}/${fileName}`
 
             return {
                 ...item,
