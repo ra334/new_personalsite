@@ -23,6 +23,21 @@ export default async function RootLayout({
 
     return (
         <html lang={locale} className={ibmPlexMono.className}>
+            <script
+                async
+                src="https://www.googletagmanager.com/gtag/js?id=G-4CZRQ8HQDE"
+            ></script>
+            <script
+                dangerouslySetInnerHTML={{
+                    __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', 'G-4CZRQ8HQDE');
+            `,
+                }}
+            />
+
             <body>
                 <NextIntlClientProvider>{children}</NextIntlClientProvider>
             </body>
