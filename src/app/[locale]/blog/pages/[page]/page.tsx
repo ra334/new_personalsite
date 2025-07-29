@@ -29,18 +29,14 @@ async function BlogPage({ params }: { params: Params }) {
         <>
             <Header />
             <div className="container px-6 flex flex-col h-full">
-                <h1
-                    className="font-bold"
-                    style={{ fontSize: '1.875rem', padding: '20px 0 30px 0' }}
-                >
-                    {t('title')}
-                </h1>
+                <h1 className="font-bold text-3xl pt-5 pb-8">{t('title')}</h1>
                 <div className="flex flex-col justify-between flex-grow">
                     <ArticlesList articles={articles} />
                     <Paginator
                         currentPage={currentPage}
                         totalPages={totalPages}
                         className="p-6"
+                        basePath="/blog"
                     />
                 </div>
             </div>

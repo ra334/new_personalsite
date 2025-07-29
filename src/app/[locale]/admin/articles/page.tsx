@@ -46,7 +46,7 @@ async function ArticlesPage({ searchParams }: { searchParams: SearchParams }) {
                     <ArticlesList articles={articles} isAdmin={true} />
                     <Pagination
                         className="mt-auto pb-2"
-                        isAdmin={true}
+                        basePath="/admin/articles"
                         currentPage={1}
                         totalPages={totalPages}
                     />
