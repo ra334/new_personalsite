@@ -44,3 +44,6 @@ next-env.d.ts
 /blog/drafts
 /blog/published
 /blog/temp
+
+# postgres
+postgres_data
