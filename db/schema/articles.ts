@@ -1,3 +1,4 @@
+import { groups } from './article-groups'
 import {
     boolean,
     timestamp,
@@ -10,6 +11,9 @@ import {
 
 export const articles = pgTable('articles', {
     id: uuid('id').primaryKey().defaultRandom(),
+    groupId: uuid('groupId').references(() => groups.id, {
+        onDelete: 'cascade',
+    }),
     lang: varchar('lang', { length: 2 }).notNull(),
     title: text('title').notNull(),
     slug: text('slug').notNull().unique(),

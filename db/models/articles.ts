@@ -10,6 +10,7 @@ export interface Article {
     content: any
     excerpt: string
     isPublished: boolean
+    groupId: string | null
     metaTitle: string | null
     metaDescription: string | null
     ogTitle: string | null
@@ -27,6 +28,7 @@ export interface UpdateArticleData {
     content?: any
     excerpt?: string
     isPublished?: boolean
+    groupId?: string
     metaTitle?: string
     metaDescription?: string
     ogTitle?: string
@@ -42,6 +44,7 @@ export interface CreateArticleData {
     content: any
     excerpt: string
     isPublished: boolean
+    groupId: string | null
     metaTitle?: string
     metaDescription?: string
     ogTitle?: string
@@ -60,6 +63,7 @@ export async function createOne({
     content,
     excerpt,
     isPublished,
+    groupId,
     metaTitle,
     metaDescription,
     ogTitle,
@@ -77,6 +81,7 @@ export async function createOne({
                 content,
                 excerpt,
                 isPublished,
+                groupId,
                 metaTitle,
                 metaDescription,
                 ogTitle,
@@ -180,6 +185,15 @@ export async function findManySlugs(): Promise<string[]> {
         .where(eq(articles.isPublished, true))
 
     return articlesList.map((article) => article.slug)
+}
+
+export async function getAllArticles(): Promise<Article[]> {
+    const articlesList = await db
+        .select()
+        .from(articles)
+        .where(eq(articles.isPublished, true))
+
+    return articlesList
 }
 
 export async function countAllArticles({

@@ -31,6 +31,7 @@ export interface CreateArticleInput {
     content: string
     excerpt: string
     isPublished: boolean
+    groupId: string
     metaTitle: string
     metaDescription: string
     ogTitle: string
@@ -44,6 +45,7 @@ export interface UpdateArticleData {
     content?: string
     excerpt?: string
     isPublished?: boolean
+    groupId?: string
     metaTitle?: string
     metaDescription?: string
     ogTitle?: string

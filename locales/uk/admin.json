@@ -2,7 +2,8 @@
     "sidebar": {
         "dashboard": "Панель управління",
         "writeNew": "Написати нову",
-        "articles": "Статті"
+        "articles": "Статті",
+        "groups": "Групи"
     },
 
     "dashboard": {
@@ -32,5 +33,25 @@
             "confirm": "Видалити",
             "cancel": "Скасувати"
         }
+    },
+
+    "groups": {
+        "delete_modal": {
+            "title": "Видалити групу",
+            "message": "Ви впевнені, що хочете видалити: ",
+            "confirm": "Видалити",
+            "cancel": "Скасувати"
+        },
+        "noGroups": "Немає доступних груп",
+        "editGroup": "Редагувати групу",
+        "deleteGroup": "Видалити",
+        "createGroup": "Створити групу",
+        "groupName": "Назва: ",
+        "saveGroup": "Зберегти",
+        "groupCreated": "Групу успішно створено",
+        "groupSuccessUpdated": "Групу успішно оновлено",
+        "groupFailedUpdate": "Групу не вдалося оновити",
+        "groupSuccessDeleted": "Групу успішно видалено",
+        "groupFailedDeleted": "Не вдалося видалити групу"
     }
 }

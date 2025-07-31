@@ -1,18 +1,18 @@
 'use server'
 
-import { type CreateArticleInput } from '../services/articles'
 import {
     countAllArticles,
     type Article,
     type ArticleFilter,
 } from '@/db/models/articles'
-import { findManyPaginated, findBySlug, deleteOne } from '@/db/models/articles'
+import { findManyPaginated, findBySlug } from '@/db/models/articles'
 import { auth } from '@src/auth'
+import { type CreateArticleInput } from '@src/server/services/articles'
 import {
     createArticle,
     updateArticle,
     cleanTemporaryFiles,
-    deleteArticle
+    deleteArticle,
 } from '@src/server/services/articles'
 import z from 'zod'
 
@@ -32,6 +32,7 @@ export async function createArticleAction(
         content: z.string().nonempty(),
         excerpt: z.string().nonempty(),
         isPublished: z.boolean(),
+        groupId: z.string(),
         metaTitle: z.string().nonempty(),
         metaDescription: z.string().nonempty(),
         ogTitle: z.string().nonempty(),
@@ -65,6 +66,7 @@ export async function updateArticleAction(
         content: z.string().optional(),
         excerpt: z.string().optional(),
         isPublished: z.boolean().optional(),
+        groupId: z.string().optional(),
         metaTitle: z.string().optional(),
         metaDescription: z.string().optional(),
         ogTitle: z.string().optional(),

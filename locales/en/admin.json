@@ -2,7 +2,8 @@
     "sidebar": {
         "dashboard": "Dashboard",
         "writeNew": "Write new",
-        "articles": "Articles"
+        "articles": "Articles",
+        "groups": "Groups"
     },
 
     "dashboard": {
@@ -32,5 +33,23 @@
             "confirm": "Delete",
             "cancel": "Cancel"
         }
+    },
+
+    "groups": {
+        "delete_modal": {
+            "title": "Delete Group",
+            "message": "Are you sure you want to delete: ",
+            "confirm": "Delete",
+            "cancel": "Cancel"
+        },
+        "noGroups": "No groups available",
+        "editGroup": "Edit Group",
+        "deleteGroup": "Delete",
+        "createGroup": "Create Group",
+        "groupName": "Name: ",
+        "saveGroup": "Save",
+        "groupCreated": "Group created successfully",
+        "groupUpdated": "Group updated successfully",
+        "groupDeleted": "Group deleted successfully"
     }
 }

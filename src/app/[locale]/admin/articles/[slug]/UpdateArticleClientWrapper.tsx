@@ -3,6 +3,7 @@
 import { type Article } from '@/db/models/articles'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Button from '@src/components/Button'
+import Dropdown, { type MenuItem } from '@src/components/Dropdown'
 import {
     Modal,
     ModalBody,
@@ -12,6 +13,10 @@ import {
 import Editor from '@src/layouts/admin/Editor'
 import EditorToolBar from '@src/layouts/admin/EditorToolBar'
 import Sidebar from '@src/layouts/admin/Sidebar'
+import {
+    getGroupByIdAction,
+    getAllGroupsAction,
+} from '@src/server/actions/article-groups'
 import { updateArticleAction } from '@src/server/actions/articles'
 import { cleanTempDirectoryAction } from '@src/server/actions/articles'
 import { type JSONContent } from '@tiptap/core'
@@ -87,6 +92,8 @@ function UpdateArticleClientWrapper({
     const [publishValue, setPublishValue] = useState<boolean>(false)
     const [draftValue, setDraftValue] = useState<boolean>(false)
     const [checkboxLoaded, setCheckboxLoaded] = useState(false)
+    const [groupValue, setGroupValue] = useState<MenuItem | null>(null)
+    const [groups, setGroups] = useState<MenuItem[]>([])
     const {
         register,
         handleSubmit,
@@ -112,7 +119,6 @@ function UpdateArticleClientWrapper({
 
             console.log('Temporary directory cleaned')
         }
-        cleanTemp()
 
         function setPublishState() {
             if (article.isPublished) {
@@ -124,7 +130,36 @@ function UpdateArticleClientWrapper({
             setCheckboxLoaded(true)
         }
 
+        async function setActiveGroup() {
+            if (article.groupId) {
+                const group = await getGroupByIdAction(article.groupId)
+                if (group) {
+                    setGroupValue({
+                        value: group.id,
+                        label: group.name,
+                    })
+                } else {
+                    console.error('Group not found')
+                }
+            }
+        }
+
+        async function fetchGroups() {
+            const groups = await getAllGroupsAction()
+            if (groups) {
+                setGroups(
+                    groups.map((group) => ({
+                        value: group.id,
+                        label: group.name,
+                    })),
+                )
+            }
+        }
+
+        cleanTemp()
         setPublishState()
+        setActiveGroup()
+        fetchGroups()
     }, [])
 
     function getTitle(jsonContent: JSONContent): string {
@@ -154,10 +189,16 @@ function UpdateArticleClientWrapper({
             return
         }
 
+        if (!groupValue) {
+            toast.error('Group is required')
+            return
+        }
+
         const updatedArticle = await updateArticleAction(article.slug, {
             ...formData,
             content: JSON.stringify(content),
             isPublished: publishValue,
+            groupId: groupValue.value,
             title,
         })
 
@@ -227,6 +268,21 @@ function UpdateArticleClientWrapper({
                                     </li>
                                 ))}
                             </ul>
+                            <div className="">
+                                <label
+                                    htmlFor="dropdown"
+                                    className="block mb-1"
+                                >
+                                    Groups
+                                </label>
+                                <Dropdown
+                                    id="dropdown"
+                                    onChange={setGroupValue}
+                                    selected={groupValue}
+                                    placeholder="Select group"
+                                    items={groups}
+                                />
+                            </div>
                             <Button type="submit">Save</Button>
                         </form>
                     </ModalBody>

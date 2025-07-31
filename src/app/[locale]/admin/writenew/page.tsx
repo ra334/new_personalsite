@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import '@src/app/globals.css'
 import Button from '@src/components/Button'
+import Dropdown, { type MenuItem } from '@src/components/Dropdown'
 import {
     Modal,
     ModalBody,
@@ -12,6 +13,7 @@ import {
 import Editor from '@src/layouts/admin/Editor'
 import EditorToolBar from '@src/layouts/admin/EditorToolBar'
 import Sidebar from '@src/layouts/admin/Sidebar'
+import { getAllGroupsAction } from '@src/server/actions/article-groups'
 import { createArticleAction } from '@src/server/actions/articles'
 import { cleanTempDirectoryAction } from '@src/server/actions/articles'
 import { type JSONContent } from '@tiptap/core'
@@ -77,9 +79,11 @@ const modalBodyContent: Item[] = [
 
 function WriteNewPage() {
     const [editor, setEditor] = useState<EditorType | null>(null)
-    const [visible, setVisible] = useState(false)
+    const [visible, setVisible] = useState<boolean>(false)
     const [publishValue, setPublishValue] = useState<boolean>(false)
     const [draftValue, setDraftValue] = useState<boolean>(false)
+    const [groupValue, setGroupValue] = useState<MenuItem | null>(null)
+    const [groups, setGroups] = useState<MenuItem[]>([])
     const {
         register,
         handleSubmit,
@@ -97,7 +101,21 @@ function WriteNewPage() {
 
             console.log('Temporary directory cleaned')
         }
+
+        async function fetchGroups() {
+            const groups = await getAllGroupsAction()
+            if (groups) {
+                setGroups(
+                    groups.map((group) => ({
+                        value: group.id,
+                        label: group.name,
+                    })),
+                )
+            }
+        }
+
         cleanTemp()
+        fetchGroups()
     }, [])
 
     function getTitle(jsonContent: JSONContent): string {
@@ -127,10 +145,16 @@ function WriteNewPage() {
             return
         }
 
+        if (!groupValue) {
+            toast.error('Group is required')
+            return
+        }
+
         const article = await createArticleAction({
             ...formData,
             content: JSON.stringify(content),
             isPublished: publishValue,
+            groupId: groupValue.value,
             title,
         })
         if (article) {
@@ -199,6 +223,20 @@ function WriteNewPage() {
                                     </li>
                                 ))}
                             </ul>
+                            <div className="">
+                                <label
+                                    htmlFor="dropdown"
+                                    className="block mb-1"
+                                >
+                                    Groups
+                                </label>
+                                <Dropdown
+                                    id="dropdown"
+                                    onChange={setGroupValue}
+                                    placeholder="Select group"
+                                    items={groups}
+                                />
+                            </div>
                             <Button type="submit">Save</Button>
                         </form>
                     </ModalBody>

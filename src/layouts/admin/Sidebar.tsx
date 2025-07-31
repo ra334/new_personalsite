@@ -56,6 +56,10 @@ function Sidebar({
             name: t('sidebar.articles'),
             href: '/admin/articles',
         },
+        {
+            name: t('sidebar.groups'),
+            href: '/admin/groups',
+        },
     ]
 
     return (
