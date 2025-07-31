@@ -6,7 +6,7 @@ import type { Group } from '@/db/models/article-groups'
 import {
     changeGroupNameAction,
     deleteGroupAction,
-    getArticleByIdAction,
+    getGroupByIdAction,
 } from '@src/server/actions/article-groups'
 import { format } from 'date-fns'
 import { uk, enUS } from 'date-fns/locale'
@@ -38,7 +38,7 @@ function GroupsList({ groups }: GroupsListProps) {
     useEffect(() => {
         async function getName() {
             if (isOpenEdit && selectedGroup) {
-                const group = await getArticleByIdAction(selectedGroup.id)
+                const group = await getGroupByIdAction(selectedGroup.id)
                 if (group?.name) {
                     setGroupName(group?.name)
                 }
