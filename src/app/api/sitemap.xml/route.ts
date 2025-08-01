@@ -11,15 +11,18 @@ interface SitemapPage {
     priority?: number
 }
 
-function generateSitemap(pages: SitemapPage[], articlePages: SitemapPage[]) {
+function generateSitemap(pages: SitemapPage[], articlePages?: SitemapPage[]) {
     return `<?xml version="1.0" encoding="UTF-8"?>
             <urlset
             xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
             xmlns:xhtml="http://www.w3.org/1999/xhtml"
             >
-                ${pages
-                    .map((page) => {
-                        return `
+                ${
+                    !pages.length
+                        ? ''
+                        : pages
+                              .map((page) => {
+                                  return `
                     <url>
                         <loc>${page.url}</loc>
                         <lastmod>${page.lastModified.toISOString()}</lastmod>
@@ -28,11 +31,15 @@ function generateSitemap(pages: SitemapPage[], articlePages: SitemapPage[]) {
                         <xhtml:link rel="alternate" hreflang="en" href="${page.enUrl}" />
                         <xhtml:link rel="alternate" hreflang="uk" href="${page.ukUrl}" />
                     </url>`
-                    })
-                    .join('\n')}
-                ${articlePages
-                    .map((page) => {
-                        return `
+                              })
+                              .join('\n')
+                }
+                ${
+                    !articlePages
+                        ? ''
+                        : articlePages
+                              .map((page) => {
+                                  return `
                     <url>
                         <loc>${page.url}</loc>
                         <lastmod>${page.lastModified.toISOString()}</lastmod>
@@ -41,8 +48,9 @@ function generateSitemap(pages: SitemapPage[], articlePages: SitemapPage[]) {
                         <xhtml:link rel="alternate" hreflang="en" href="${page.enUrl}" />
                         <xhtml:link rel="alternate" hreflang="uk" href="${page.ukUrl}" />
                     </url>`
-                    })
-                    .join('\n')}
+                              })
+                              .join('\n')
+                }
             </urlset>`
 }
 
@@ -66,7 +74,18 @@ export async function GET() {
 
     const articlePages: SitemapPage[] = []
 
-    const groups = await getGroups()
+    let groups = []
+
+    try {
+        groups = await getGroups()
+    } catch (error) {
+        const sitemap = generateSitemap(pages)
+
+        return new Response(sitemap, {
+            headers: { 'Content-Type': 'application/xml' },
+        })
+    }
+
     const articlesByGroup = await Promise.all(
         groups.map(async (group) => {
             const articles = await findByGroupId(group.id)
