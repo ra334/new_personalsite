@@ -149,6 +149,17 @@ export async function findPublished(
     return articlesList
 }
 
+export async function findByGroupId(groupId: string): Promise<Article[]> {
+    const articlesList = await db
+        .select()
+        .from(articles)
+        .where(
+            and(eq(articles.groupId, groupId), eq(articles.isPublished, true)),
+        )
+
+    return articlesList
+}
+
 export async function findManyPaginated(
     offset: number = 0,
     limit: number = 10,
