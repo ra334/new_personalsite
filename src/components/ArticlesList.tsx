@@ -30,7 +30,7 @@ function ArticlesList({ articles, isAdmin }: ArticlesListProps) {
     const t = useTranslations('admin.articles.delete_modal')
 
     return (
-        <> 
+        <>
             <Toaster />
             <Modal isOpen={isOpen} onClose={setIsOpen}>
                 <ModalHeader onClose={setIsOpen}>
@@ -44,21 +44,28 @@ function ArticlesList({ articles, isAdmin }: ArticlesListProps) {
                         className="flex justify-between gap-3 w-[250px] m-auto"
                         style={{ width: '250px' }}
                     >
-                        <Button onClick={async () => {
-                            if (selectedArticle) {
-                                const deletedArticleSlug = await deleteArticleAction(selectedArticle.slug)
-                                
-                                
-                                if (deletedArticleSlug) {
-                                    setIsOpen(false)
-                                    toast.success('Article deleted successfully')
-                                } else {
-                                    toast.error('Failed to delete article')
-                                    setIsOpen(false)
+                        <Button
+                            onClick={async () => {
+                                if (selectedArticle) {
+                                    const deletedArticleSlug =
+                                        await deleteArticleAction(
+                                            selectedArticle.slug,
+                                        )
+
+                                    if (deletedArticleSlug) {
+                                        setIsOpen(false)
+                                        toast.success(
+                                            'Article deleted successfully',
+                                        )
+                                    } else {
+                                        toast.error('Failed to delete article')
+                                        setIsOpen(false)
+                                    }
                                 }
-                            }
-                            
-                        }}>{t('confirm')}</Button>
+                            }}
+                        >
+                            {t('confirm')}
+                        </Button>
                         <Button onClick={() => setIsOpen(false)}>
                             {t('cancel')}
                         </Button>
