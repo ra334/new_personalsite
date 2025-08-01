@@ -1,6 +1,7 @@
 import { getGroups } from '@/db/models/article-groups'
 import { findByGroupId } from '@/db/models/articles'
 
+export const dynamic = 'force-dynamic'
 const siteURL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 
 interface SitemapPage {
